@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>なかまの礎1910 未来レンガ｜中間市ご提案｜EXE MATE株式会社</title>
+<style>
+/* ============================================================
+   EXE Design OS — Deck v3（イラスト全面ブリード版）
+   ・絵は箱に入れない。端まで断ち落とす
+   ・文字は絵の上にグラデーションで減光して重ねる
+   ・レイアウトはCSS Grid。絶対配置で本文を置かない
+   ============================================================ */
+:root{
+  --paper:#F7F3EC; --paper2:#FCFAF5; --ink:#1E1C1C; --soft:#5F5A57; --muted:#A9A29E;
+  --pink:#FF6366; --pink-d:#D9484B; --pink-p:#FFE7E7;
+  --grey:#D6E4E7; --yellow:#F8E700; --dark:#1A1718; --rule:rgba(30,28,28,.13);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#2c2a29;font-family:"Yu Gothic","游ゴシック体",YuGothic,"Hiragino Sans","Meiryo",sans-serif;
+     -webkit-font-smoothing:antialiased}
+#deck{display:flex;flex-direction:column;align-items:center;gap:26px;padding:26px 16px 96px}
+
+.slide{position:relative;width:1920px;height:1080px;flex:none;overflow:hidden;
+  transform:scale(var(--s,.6));transform-origin:top center;
+  margin-bottom:calc((var(--s,.6) - 1) * 1080px);
+  background:var(--paper);color:var(--ink);box-shadow:0 24px 74px rgba(0,0,0,.46)}
+/* 紙の質感（最前面・全スライド共通） */
+.slide::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.55;
+  background-image:
+    repeating-linear-gradient(0deg,transparent 0 2px,rgba(30,28,28,.026) 2px 3px),
+    repeating-linear-gradient(90deg,transparent 0 5px,rgba(30,28,28,.016) 5px 6px)}
+
+/* ── 絵の層 ── */
+.art{position:absolute;z-index:0;overflow:hidden}
+.art img{width:100%;height:100%;object-fit:cover;display:block}
+.art.strip img{object-position:center 78%}
+.art.band img{object-position:center 42%}
+.art.full{inset:0}
+.art.band{left:0;right:0;top:0;height:56%}
+.art.mid{left:0;right:0;top:23%;height:40%}
+.art.strip{left:0;right:0;top:0;height:31%}
+.art.right{top:0;bottom:0;right:0;width:62%}
+.art.left{top:0;bottom:0;left:0;width:58%}
+
+/* ── 減光（箱ではなくグラデーション） ── */
+.scrim{position:absolute;z-index:1;pointer-events:none}
+.scrim.dark-l{inset:0;background:linear-gradient(88deg,rgba(20,17,18,.96) 0%,rgba(20,17,18,.9) 32%,rgba(20,17,18,.38) 58%,rgba(20,17,18,.06) 100%)}
+.scrim.paper-l{inset:0;background:linear-gradient(90deg,var(--paper) 0%,var(--paper) 27%,rgba(247,243,236,.94) 41%,rgba(247,243,236,0) 63%)}
+.scrim.paper-r{inset:0;background:linear-gradient(270deg,var(--paper) 0%,var(--paper) 27%,rgba(247,243,236,.94) 41%,rgba(247,243,236,0) 63%)}
+.scrim.mid-fade{left:0;right:0;top:23%;height:40%;
+  background:linear-gradient(180deg,var(--paper) 0%,rgba(247,243,236,0) 22%,rgba(247,243,236,0) 74%,var(--paper) 100%)}
+.scrim.band-b{left:0;right:0;top:0;height:56%;
+  background:linear-gradient(180deg,rgba(247,243,236,0) 40%,rgba(247,243,236,.55) 72%,var(--paper) 100%)}
+.scrim.strip-b{left:0;right:0;top:0;height:31%;
+  background:linear-gradient(180deg,rgba(247,243,236,0) 45%,rgba(247,243,236,.7) 80%,var(--paper) 100%)}
+
+/* ── 文字の層 ── */
+.fg{position:absolute;inset:0;z-index:5;display:grid;padding:82px 112px 76px}
+.tag{position:absolute;left:112px;top:60px;z-index:8;font-size:21px;font-weight:700;
+  letter-spacing:.12em;color:var(--muted)}
+.on-dark .tag{color:rgba(255,255,255,.52)}
+.pageno{position:absolute;right:58px;bottom:38px;z-index:8;
+  font:600 21px/1 "Segoe UI",sans-serif;color:var(--soft);letter-spacing:.08em;
+  background:rgba(247,243,236,.72);padding:7px 12px;border-radius:6px}
+.on-dark .pageno{color:rgba(255,255,255,.62);background:rgba(20,17,18,.5)}
+
+.rule{width:88px;height:7px;background:var(--pink);border-radius:4px;margin-bottom:26px}
+.kicker{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.kicker .sec{display:grid;place-items:center;width:40px;height:40px;border-radius:9px;
+  background:var(--pink);color:#fff;font:900 21px/1 "Segoe UI",sans-serif}
+.kicker .kt{font-size:21px;font-weight:800;letter-spacing:.1em;color:var(--pink-d)}
+h1{font-size:112px;font-weight:900;line-height:1.14;letter-spacing:-.035em}
+h2{font-size:66px;font-weight:900;line-height:1.2;letter-spacing:-.03em}
+h3{font-size:48px;font-weight:900;line-height:1.25;letter-spacing:-.02em}
+.lead{margin-top:22px;font-size:26px;line-height:1.7;color:var(--soft);max-width:1080px}
+.on-dark h1,.on-dark h2,.on-dark h3{color:#fff}
+.on-dark .lead{color:#CFC7C2}
+.on-dark .kicker .kt{color:#FF9A9C}
+.meta{margin-top:44px;font-size:22px;color:var(--muted);letter-spacing:.04em}
+.on-dark .meta{color:#948B86}
+
+/* 配置ヘルパ */
+.mid-l{align-content:center;justify-items:start}
+.top-l{align-content:start}
+.bot{align-content:end}
+.col-l{width:900px}
+.col-r{width:820px;margin-left:auto}
+
+/* ── 部品 ── */
+.cards{display:grid;gap:24px}
+.card{background:rgba(252,250,245,.92);border:1px solid var(--rule);border-radius:16px;padding:30px 28px;
+  backdrop-filter:blur(3px);display:flex;flex-direction:column;justify-content:center}
+.card .ct{font-size:28px;font-weight:900;line-height:1.3}
+.card .cb{margin-top:12px;font-size:20px;line-height:1.7;color:var(--soft)}
+.card .cap{display:block;width:52px;height:6px;border-radius:3px;background:var(--pink);margin-bottom:18px}
+
+.steps{display:grid;gap:18px;align-content:center}
+.step{background:rgba(252,250,245,.92);border:1px solid var(--rule);border-radius:13px;padding:20px 20px 22px}
+.step .sn{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;
+  background:var(--pink);color:#fff;font:900 21px/1 "Segoe UI",sans-serif;margin-bottom:12px}
+.step .st{font-size:21px;font-weight:800;line-height:1.35}
+.step .sb{margin-top:9px;font-size:17px;line-height:1.6;color:var(--soft)}
+
+.panel{background:var(--pink-p);border-radius:15px;padding:24px 28px}
+.panel .pt{font-size:21px;font-weight:900}
+.panel .pb{margin-top:9px;font-size:19px;line-height:1.7;color:var(--soft)}
+
+.bullets{list-style:none;display:flex;flex-direction:column;gap:13px;font-size:21px;line-height:1.65;color:var(--soft)}
+.bullets li{display:flex;gap:12px}
+.bullets .d{color:var(--pink);flex:none;font-size:14px;line-height:1.9}
+
+.rich{font-size:21px;line-height:1.75;color:var(--soft);display:flex;flex-direction:column;gap:18px}
+.rich b{color:var(--ink);font-weight:900;display:block;margin-bottom:2px}
+
+.big{font:900 var(--bs,132px)/.95 "Segoe UI",sans-serif;color:var(--pink);letter-spacing:-.035em}
+.big .u{font-size:.34em;margin-left:.06em;letter-spacing:0}
+
+table.t{border-collapse:collapse;width:100%;table-layout:fixed;background:rgba(252,250,245,.9)}
+table.t th{background:var(--ink);color:#fff;font-size:19px;font-weight:700;text-align:left;padding:15px 18px}
+table.t td{padding:14px 18px;font-size:18px;line-height:1.55;color:var(--soft);
+  border-bottom:1px solid var(--rule);vertical-align:top;word-break:break-word}
+table.t tr:nth-child(even) td{background:rgba(214,228,231,.32)}
+table.t td.k{font-weight:800;color:var(--ink)}
+table.t td.n{font:800 20px/1.4 "Segoe UI",sans-serif;color:var(--pink-d);text-align:center}
+table.t td.hi{color:var(--pink-d);font-weight:800}
+
+.foot{font-size:19px;line-height:1.6;color:var(--soft)}
+.foot b{color:var(--pink-d);font-weight:800}
+
+/* ── ビューア ── */
+#bar{position:fixed;left:0;right:0;bottom:0;height:56px;z-index:60;display:flex;align-items:center;
+  justify-content:center;gap:10px;background:rgba(22,19,19,.95);backdrop-filter:blur(12px);color:#fff;font-size:14px}
+#bar button{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.17);color:#fff;
+  padding:9px 18px;border-radius:999px;cursor:pointer;font:inherit}
+#bar button:hover{background:rgba(255,99,102,.24);border-color:rgba(255,99,102,.55)}
+#bar a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.17);color:#fff;
+  padding:9px 18px;border-radius:999px;font:inherit}
+#bar a:hover{background:rgba(255,99,102,.24);border-color:rgba(255,99,102,.55)}
+#cnt{font:600 14px/1 "Segoe UI",sans-serif;min-width:70px;text-align:center;color:#d8d1ce}
+#toc{position:fixed;inset:0;z-index:70;background:rgba(20,17,17,.97);color:#fff;padding:54px;overflow:auto;display:none}
+#toc.on{display:block}
+#toc h4{font-size:13px;letter-spacing:.2em;color:var(--pink);margin-bottom:24px}
+#toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:6px}
+#toc a{color:#eae5e2;text-decoration:none;display:flex;gap:16px;padding:12px 16px;border-radius:8px;font-size:16px}
+#toc a:hover{background:rgba(255,99,102,.18)}
+#toc .n{font:700 13px/1.5 "Segoe UI",sans-serif;color:var(--pink);min-width:26px}
+@media print{body{background:#fff}#bar,#toc{display:none!important}#deck{padding:0;gap:0}
+  .slide{transform:none!important;margin:0!important;box-shadow:none;page-break-after:always}
+  @page{size:1920px 1080px;margin:0}}
+</style>
+</head>
+<body>
+<main id="deck">
+
+<!-- ══ 1. 表紙 ══ -->
+<section class="slide on-dark" data-t="表紙｜なかまの礎1910 未来レンガ">
+  <div class="art full"><img src="illust/未来レンガ/01_cover.png" alt=""></div>
+  <div class="scrim dark-l"></div>
+  <div class="tag">EXE MATE 株式会社　｜　中間市 ご提案</div>
+  <div class="fg mid-l">
+    <div class="col-l">
+      <div class="rule"></div>
+      <div class="kicker"><span class="kt">デジタル中間市（メタバース）× バーチャル・ドナー・ウォール構想</span></div>
+      <h1>なかまの礎1910<br><span style="color:var(--yellow)">未来レンガ</span></h1>
+      <p class="lead">中間市の「応援・寄付」を、<br>デジタルの壁に刻んで“見える化”する。</p>
+      <div class="meta">予算前提　2,000万円を厳守　｜　2026.07</div>
+    </div>
+  </div>
+  <div class="pageno">01 / 15</div>
+</section>
+
+<!-- ══ 2. 全体像と本日の構成 ══ -->
+<section class="slide" data-t="全体像と、本日の構成">
+  <div class="art band"><img src="illust/未来レンガ/02_journey.png" alt=""></div>
+  <div class="scrim band-b"></div>
+  <div class="fg" style="grid-template-rows:auto 1fr;gap:32px">
+    <div>
+      <div class="rule"></div>
+      <h2>全体像と、本日の構成</h2>
+      <p class="lead">『NAKAMATE!』の中核「応援する」＝未来レンガ</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px;align-content:end">
+      <div class="card">
+        <span class="cap"></span>
+        <div class="ct" style="font-size:25px">この提案の位置づけ</div>
+        <div class="cb">寄付してくれた市民・企業の名前を、世界遺産ポンプ室を再現したデジタルの壁（レンガ）に刻み、80インチの大画面とスマホから“いつでも会いに行ける”体験にします。</div>
+        <div style="margin-top:16px;font-size:19px;font-weight:900;color:var(--pink-d)">予算前提</div>
+        <div class="cb" style="margin-top:4px">2,000万円は『NAKAMATE!』一式の導入価格。本レンガ機能もこの中に含まれます。</div>
+      </div>
+      <div>
+        <div style="font-size:25px;font-weight:900;margin-bottom:14px">本日の構成（全10章）</div>
+        <ol id="agenda" style="list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:9px 28px;font-size:18px"></ol>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">02 / 15</div>
+</section>
+
+<!-- ══ 3. ひと言でいうと ══ -->
+<section class="slide" data-t="1｜この提案は、ひと言でいうと？">
+  <div class="art band"><img src="illust/未来レンガ/03_values.png" alt=""></div>
+  <div class="scrim band-b"></div>
+  <div class="fg" style="grid-template-rows:auto 1fr;gap:30px">
+    <div>
+      <div class="kicker"><span class="sec">1</span><span class="kt">まず全体像をつかむ</span></div>
+      <h2>この提案は、ひと言でいうと？</h2>
+    </div>
+    <div style="align-self:end">
+      <p class="lead" style="max-width:1500px;margin-bottom:26px">寄付してくれた市民・企業の名前を、世界遺産「遠賀川水源地ポンプ室」を再現したデジタルの壁に刻み、<b style="color:var(--ink)">大画面とスマホから“いつでも会いに行ける”体験</b>にします。</p>
+      <div class="cards" style="grid-template-columns:repeat(3,1fr)">
+        <div class="card"><span class="cap"></span><div class="ct">① 見える化</div>
+          <div class="cb">市民・企業の「応援したい」を街の画面に映し、まちづくりへの参加を実感できる。</div></div>
+        <div class="card"><span class="cap"></span><div class="ct">② 文化を未来へ</div>
+          <div class="cb">世界遺産ポンプ室をデジタルで保存し、歴史・観光・教育に活かす。</div></div>
+        <div class="card"><span class="cap"></span><div class="ct">③ 続く仕組み</div>
+          <div class="cb">デジタルなら壁は無限。寄付＝レンガが積み上がり、財源が継続的に育つ。</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">03 / 15</div>
+</section>
+
+<!-- ══ 4. 体験の4ステップ ══ -->
+<section class="slide" data-t="2｜使う人は、何をする？（体験の4ステップ）">
+  <div class="art mid"><img src="illust/未来レンガ/04_steps.png" alt=""></div>
+  <div class="scrim mid-fade"></div>
+  <div class="fg" style="grid-template-rows:auto 1fr auto;gap:26px">
+    <div>
+      <div class="kicker"><span class="sec">2</span><span class="kt">市民・企業から見た流れ</span></div>
+      <h2>使う人は、何をする？</h2>
+    </div>
+    <div class="steps" style="grid-template-columns:repeat(4,1fr);align-content:end">
+      <div class="step"><div class="sn">1</div><div class="st">その場で寄付する</div>
+        <div class="sb">大画面のQRを読み取り、スマホで¥500〜を即時決済。</div></div>
+      <div class="step"><div class="sn">2</div><div class="st">名前がレンガに刻まれる</div>
+        <div class="sb">寄付額に応じて名入りデジタルレンガが生成。企業はロゴ入り銘板も。</div></div>
+      <div class="step"><div class="sn">3</div><div class="st">大画面の壁に表示される</div>
+        <div class="sb">80インチのポンプ室の壁に並び、支援者が増えるほど壁が拡張。</div></div>
+      <div class="step"><div class="sn">4</div><div class="st">記念の15秒動画ができる</div>
+        <div class="sb">名前がズームアップされるSNS用の記念動画が自動生成、シェア可。</div></div>
+    </div>
+    <div class="foot"><b>決めごと</b>　市民はその場で即時決済（Stripe／カード・Apple Pay・Google Pay）。完了後、確認メールと“自分のレンガの専用URL”が届く。企業は申込→審査→入金後に掲載（通常3営業日以内）。個人のふるさと納税やログイン登録は今回は扱わない。</div>
+  </div>
+  <div class="pageno">04 / 15</div>
+</section>
+
+<!-- ══ 5. 個人フロー ══ -->
+<section class="slide" data-t="2｜申込フロー ①個人（市民）">
+  <div class="fg" style="grid-template-rows:auto 1fr auto;gap:26px">
+    <div>
+      <div class="kicker"><span class="sec">2</span><span class="kt">4ステップで完了</span></div>
+      <h2>申込フロー ①　個人（市民）＝その場で即時決済</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr 60px 1fr;align-items:center;gap:0">
+      <div class="step"><div class="sn">1</div><div class="st">QRを読む</div>
+        <div class="sb">大画面に出ているQRを、スマホで読み取る。</div></div>
+      <div style="text-align:center;color:var(--pink);font-size:34px">▶</div>
+      <div class="step"><div class="sn">2</div><div class="st">選ぶ</div>
+        <div class="sb">金額・名前・メッセージ・レンガの色を選ぶ。</div></div>
+      <div style="text-align:center;color:var(--pink);font-size:34px">▶</div>
+      <div class="step"><div class="sn">3</div><div class="st">決済する</div>
+        <div class="sb">Stripeで即時決済。ログイン登録は不要。</div></div>
+      <div style="text-align:center;color:var(--pink);font-size:34px">▶</div>
+      <div class="step" style="border:2px solid var(--pink)"><div class="sn">4</div><div class="st">名前が刻まれる</div>
+        <div class="sb">その場で壁に反映。確認メールと記念動画が届く。</div></div>
+    </div>
+    <div class="panel"><div class="pt">決済はStripe（カード・Apple Pay・Google Pay）</div>
+      <div class="pb">即時決済で、完了後に確認メールと“自分のレンガの専用URL”が届く。個人はログイン登録不要。金額は¥500／¥1,000／¥5,000／任意額から選べます。</div></div>
+  </div>
+  <div class="pageno">05 / 15</div>
+</section>
+
+<!-- ══ 6. 企業フロー ══ -->
+<section class="slide" data-t="2｜申込フロー ②企業">
+  <div class="fg" style="grid-template-rows:auto 1fr auto;gap:26px">
+    <div>
+      <div class="kicker"><span class="sec">2</span><span class="kt">4ステップ（掲載は後日）</span></div>
+      <h2>申込フロー ②　企業＝申込 → 審査 → 掲載</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr 60px 1fr;align-items:center;gap:0">
+      <div class="step"><div class="sn">1</div><div class="st">申し込む</div>
+        <div class="sb">プランを選んで、申込フォームから応募する。</div></div>
+      <div style="text-align:center;color:var(--pink);font-size:34px">▶</div>
+      <div class="step"><div class="sn">2</div><div class="st">市が審査する</div>
+        <div class="sb">広告掲載基準に沿って可否を判断（通常3営業日以内）。</div></div>
+      <div style="text-align:center;color:var(--pink);font-size:34px">▶</div>
+      <div class="step"><div class="sn">3</div><div class="st">素材を入れる</div>
+        <div class="sb">入金確認後、ロゴやCM動画をご提供いただく。</div></div>
+      <div style="text-align:center;color:var(--pink);font-size:34px">▶</div>
+      <div class="step" style="border:2px solid var(--pink)"><div class="sn">4</div><div class="st">掲載される</div>
+        <div class="sb">空間と大画面に反映。表示回数を定期的に報告。</div></div>
+    </div>
+    <div class="foot"><b>決めごと</b>　掲載可否は市が最終判断。税制優遇はうたわず、企業支援は広告として扱う。詳細な手順（請求書発行・入金確認・掲載データ作成・レポート提出）は別紙にて。</div>
+  </div>
+  <div class="pageno">06 / 15</div>
+</section>
+
+<!-- ══ 7. 画面ではどう見える ══ -->
+<section class="slide" data-t="3｜画面では、どう見える？（映像と操作）">
+  <div class="fg" style="grid-template-rows:auto 1fr auto;gap:24px">
+    <div>
+      <div class="kicker"><span class="sec">3</span><span class="kt">映像と操作</span></div>
+      <h2>画面では、どう見える？</h2>
+      <p class="lead">読み込みを挟まず、俯瞰から自分のレンガまで一続きの映像で移動します。</p>
+    </div>
+    <div style="display:grid;place-items:center;min-height:0">
+      <svg viewBox="0 0 1696 430" style="width:100%;height:100%;max-height:430px">
+        <defs><filter id="g7" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="7" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <clipPath id="c7"><rect width="376" height="290" rx="12"/></clipPath></defs>
+        <g><g transform="translate(0,0)"><circle cx="24" cy="24" r="24" fill="#FF6366"/>
+          <text x="24" y="33" font-size="25" font-weight="900" fill="#fff" text-anchor="middle">1</text>
+          <text x="62" y="34" font-size="28" font-weight="900" fill="#1E1C1C">鳥瞰</text>
+          <text x="0" y="74" font-size="19" fill="#5F5A57">上空から見渡す</text></g>
+          <g transform="translate(440,0)"><circle cx="24" cy="24" r="24" fill="#FF6366"/>
+          <text x="24" y="33" font-size="25" font-weight="900" fill="#fff" text-anchor="middle">2</text>
+          <text x="62" y="34" font-size="28" font-weight="900" fill="#1E1C1C">飛翔</text>
+          <text x="0" y="74" font-size="19" fill="#5F5A57">手をかざして近づく</text></g>
+          <g transform="translate(880,0)"><circle cx="24" cy="24" r="24" fill="#FF6366"/>
+          <text x="24" y="33" font-size="25" font-weight="900" fill="#fff" text-anchor="middle">3</text>
+          <text x="62" y="34" font-size="28" font-weight="900" fill="#1E1C1C">接近</text>
+          <text x="0" y="74" font-size="19" fill="#5F5A57">壁面へ寄っていく</text></g>
+          <g transform="translate(1320,0)"><circle cx="24" cy="24" r="24" fill="#FF6366"/>
+          <text x="24" y="33" font-size="25" font-weight="900" fill="#fff" text-anchor="middle">4</text>
+          <text x="62" y="34" font-size="28" font-weight="900" fill="#1E1C1C">ズーム</text>
+          <text x="0" y="74" font-size="19" fill="#5F5A57">自分のレンガへ</text></g></g>
+        <g transform="translate(0,110)"><rect width="376" height="290" rx="12" fill="#EFEAE1" stroke="#C9C0B8" stroke-width="2"/>
+          <g transform="translate(188,160) scale(.8)" stroke="#8A8280" stroke-width="2.4" fill="none" stroke-linejoin="round">
+            <path d="M-150 56 L0 -30 L160 62 L10 148 Z" fill="#E3DCD1" opacity=".6"/>
+            <path d="M-46 30 L16 -6 L82 32 L20 68 Z" fill="#F6F1E8"/>
+            <path d="M-46 30 L-46 66 L20 104 L20 68 Z" fill="#E8E1D6"/>
+            <path d="M82 32 L82 68 L20 104 L20 68 Z" fill="#DCD5C9"/><path d="M-16 12 L16 -6 L48 14"/></g></g>
+        <g transform="translate(440,110)"><rect width="376" height="290" rx="12" fill="#EFEAE1" stroke="#C9C0B8" stroke-width="2"/>
+          <g transform="translate(188,172) scale(1.5)" stroke="#8A8280" stroke-width="1.9" fill="none" stroke-linejoin="round">
+            <path d="M-62 20 L4 -20 L78 24 L12 66 Z" fill="#F6F1E8"/>
+            <path d="M-62 20 L-62 58 L12 102 L12 66 Z" fill="#E8E1D6"/>
+            <path d="M78 24 L78 62 L12 102 L12 66 Z" fill="#DCD5C9"/>
+            <path d="M-30 2 L4 -20 L38 2"/><path d="M50 2 L62 -4 L62 -36 L50 -30 Z" fill="#F0EAE0"/></g></g>
+        <g transform="translate(880,110)"><rect width="376" height="290" rx="12" fill="#2A2526" stroke="#4A3E3F" stroke-width="2"/>
+          <g stroke="#5C4F50" stroke-width="1.6" clip-path="url(#c7)">
+            <rect x="16" y="46" width="112" height="44" fill="#37302F"/><rect x="134" y="46" width="112" height="44" fill="#332C2C"/>
+            <rect x="252" y="46" width="112" height="44" fill="#37302F"/>
+            <rect x="-43" y="96" width="112" height="44" fill="#332C2C"/><rect x="75" y="96" width="112" height="44" fill="#37302F"/>
+            <rect x="193" y="96" width="112" height="44" fill="#332C2C"/><rect x="311" y="96" width="112" height="44" fill="#37302F"/>
+            <rect x="16" y="146" width="112" height="44" fill="#332C2C"/><rect x="134" y="146" width="112" height="44" fill="#37302F"/>
+            <rect x="252" y="146" width="112" height="44" fill="#332C2C"/>
+            <rect x="-43" y="196" width="112" height="44" fill="#37302F"/><rect x="75" y="196" width="112" height="44" fill="#332C2C"/>
+            <rect x="193" y="196" width="112" height="44" fill="#37302F"/><rect x="311" y="196" width="112" height="44" fill="#332C2C"/></g></g>
+        <g transform="translate(1320,110)"><rect width="376" height="290" rx="12" fill="#2A2526" stroke="#4A3E3F" stroke-width="2"/>
+          <g stroke="#5C4F50" stroke-width="1.6" opacity=".5" clip-path="url(#c7)">
+            <rect x="4" y="46" width="150" height="60" fill="#37302F"/><rect x="222" y="46" width="150" height="60" fill="#332C2C"/>
+            <rect x="4" y="184" width="150" height="60" fill="#332C2C"/><rect x="222" y="184" width="150" height="60" fill="#37302F"/></g>
+          <rect x="113" y="115" width="150" height="60" rx="4" fill="#FF6366" opacity=".3"/>
+          <rect x="113" y="115" width="150" height="60" rx="4" fill="none" stroke="#FF9A9C" stroke-width="3" filter="url(#g7)"/>
+          <g stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".9"><path d="M138 145 h100"/></g></g>
+        <g stroke="#FF6366" stroke-width="5" stroke-linecap="round" fill="none">
+          <path d="M392 255 h20"/><path d="M832 255 h20"/><path d="M1272 255 h20"/></g>
+        <g fill="#FF6366"><path d="M414 245 l16 10 l-16 10 Z"/><path d="M854 245 l16 10 l-16 10 Z"/><path d="M1294 245 l16 10 l-16 10 Z"/></g>
+      </svg>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:36px">
+      <div class="card"><span class="cap"></span><div class="ct" style="font-size:24px">80インチ大モニター（据え置き・主役）</div>
+        <div class="cb">全機能を投入。壁の閲覧・名前検索・演出・広告・寄付導線まで大画面で完結。</div></div>
+      <div class="card"><span class="cap" style="background:var(--grey)"></span><div class="ct" style="font-size:24px">スマートフォン（補助）</div>
+        <div class="cb">大画面QRから決済、自分のレンガの簡易閲覧、記念動画のSNSシェア。</div></div>
+    </div>
+  </div>
+  <div class="pageno">07 / 15</div>
+</section>
+
+<!-- ══ 8. 未来レンガ ══ -->
+<section class="slide" data-t="4｜中核の仕組み ―「未来レンガ」">
+  <div class="art right"><img src="illust/未来レンガ/08_brick_wall.png" alt=""></div>
+  <div class="scrim paper-l"></div>
+  <div class="fg mid-l">
+    <div class="col-l" style="width:840px">
+      <div class="kicker"><span class="sec">4</span><span class="kt">無限に積み上がる、デジタルの寄付の壁</span></div>
+      <h2>中核の仕組み ―<br>「未来レンガ」</h2>
+      <div class="rich" style="margin-top:30px">
+        <p><b>機能概要</b>寄付額に応じて、デジタルツインのポンプ室壁面に名入りのレンガが配置される。</p>
+        <p><b>無限の財源</b>物理的な壁と違いスペースの限界がなく、支援者が増えるほど壁が拡張。財源を無限に積み上げられる。</p>
+        <p><b>記念のリターン</b>永続的な掲載／特別な輝きのエフェクト／SNS用15秒動画の自動生成。</p>
+      </div>
+      <div class="panel" style="margin-top:26px">
+        <div class="pt">決めごと（ハイライト方式）</div>
+        <div class="pb">寄付した名前は消えず常設アーカイブに永続掲載。手前・大きく・光る“特等席”などの目立つ表示だけをプランごとの期間制（例：90日）にし、続けたい人は再寄付で再ハイライト。</div>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">08 / 15</div>
+</section>
+
+<!-- ══ 9. 応援プラン ══ -->
+<section class="slide" data-t="5｜応援プラン（サポーター制度）">
+  <div class="art strip"><img src="illust/未来レンガ/09_badges.png" alt=""></div>
+  <div class="scrim strip-b"></div>
+  <div class="fg" style="grid-template-rows:auto 1fr auto;gap:22px;padding-top:250px">
+    <div>
+      <div class="kicker"><span class="sec">5</span><span class="kt">市民・個人と、企業・団体の2区分。金額はダミー、特典は仮</span></div>
+      <h2>応援プラン（サポーター制度）</h2>
+    </div>
+    <table class="t" style="align-self:center">
+      <tr><th style="width:140px">区分</th><th style="width:250px">プラン</th><th>内容</th><th style="width:310px">特徴</th></tr>
+      <tr><td class="k">市民・個人</td><td>投げ銭<br>¥500／¥1,000／¥5,000・任意</td>
+          <td>名前（ニックネーム可）・メッセージ30字・レンガの色4色・アイコン</td>
+          <td>完了後に記念15秒動画と専用URL。SNSでシェア可</td></tr>
+      <tr><td class="k">企業・団体</td><td>ブロンズ　¥100,000〜</td><td>Webサイトへロゴ掲載</td><td>手軽に応援・PR</td></tr>
+      <tr><td class="k">企業・団体</td><td>シルバー　¥300,000〜</td><td>ロゴ掲載＋メタバースに銘板掲出</td><td>空間内に企業名を掲示</td></tr>
+      <tr><td class="k">企業・団体</td><td>ゴールド　¥1,000,000〜</td><td>銘板＋15秒CM放映</td><td>大画面で自社紹介・感謝メッセージ</td></tr>
+      <tr><td class="k">企業・団体</td><td class="hi">プラチナ　¥3,000,000〜</td>
+          <td>フルパッケージ（特等席・冠・EC連動 等）</td><td>特等席・市長対談動画・EC送客まで</td></tr>
+    </table>
+    <div class="foot" style="color:var(--muted)">Tier1＝市民・個人（体験価値の提供）／Tier2＝企業・団体（広告出稿による社会貢献の可視化・ブランディング。今回は広告に一本化）。</div>
+  </div>
+  <div class="pageno">09 / 15</div>
+</section>
+
+<!-- ══ 10. 2つの柱 ══ -->
+<section class="slide" data-t="6｜なぜ続くのか（収入の2つの柱）">
+  <div class="art left"><img src="illust/未来レンガ/10_two_floors.png" alt=""></div>
+  <div class="scrim paper-r"></div>
+  <div class="fg" style="justify-items:end;align-content:center">
+    <div class="col-r">
+      <div class="kicker"><span class="sec">6</span><span class="kt">建物の「2階建て」にたとえた自走モデル</span></div>
+      <h2>なぜ続くのか<br>（収入の“2つの柱”）</h2>
+      <div style="margin-top:28px;display:flex;flex-direction:column;gap:16px">
+        <div class="card" style="border-left:7px solid var(--pink)">
+          <div class="ct" style="font-size:25px">2階　広告（継続して入る収入）</div>
+          <div class="cb">企業・スポンサーが払う。CM動画やロゴを空間に載せる有料広告枠。景観に溶け込む広告として継続的に入る。</div></div>
+        <div class="card" style="border-left:7px solid var(--grey)">
+          <div class="ct" style="font-size:25px">1階（土台）　寄付（まちの安定財源）</div>
+          <div class="cb">市民が払う。デジタルレンガの販売代金＝投げ銭（控除なし）。まちの財源の土台。</div></div>
+      </div>
+      <p class="lead" style="margin-top:26px;font-size:24px"><b style="color:var(--ink)">1階の寄付が一巡した後も、2階の広告収入が入り続ける</b>ため、中間市の税金の持ち出しに頼らず回り続けます。</p>
+    </div>
+  </div>
+  <div class="pageno">10 / 15</div>
+</section>
+
+<!-- ══ 11. 収支の見取り図 ══ -->
+<section class="slide" data-t="7｜収支の見取り図（叩き台）">
+  <div class="fg" style="grid-template-rows:auto 1fr;gap:28px">
+    <div>
+      <div class="kicker"><span class="sec">7</span><span class="kt">数字はすべて仮の試算。今後、市と精査して確定する</span></div>
+      <h2>収支の見取り図（叩き台）</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-content:center">
+      <div>
+        <div style="font-size:20px;font-weight:800;color:var(--soft)">①『NAKAMATE!』一式 導入価格（初期・一式／仮）</div>
+        <div class="big" style="--bs:136px;margin-top:8px">2,000<span class="u">万円</span></div>
+        <div class="lead" style="font-size:19px;margin-top:12px">本資料の「未来レンガ」は『応援する』機能としてこの中に含まれる。</div>
+        <div style="margin-top:16px;font-size:18px;line-height:1.6;color:var(--muted)">※ デジタル田園都市国家構想交付金など、地方DX・関係人口系の交付金／補助金の活用で、市の実負担を圧縮できる可能性。</div>
+        <div style="margin-top:30px;font-size:22px;font-weight:900">③ KPI（成果を測る指標／例）</div>
+        <ul class="bullets" style="margin-top:12px;font-size:19px">
+          <li><span class="d">●</span>寄付者数／寄付総額／スポンサー数／大画面来場・PWAアクセス数／SNSシェア数</li>
+          <li><span class="d">●</span>目標例：半年でスポンサー10社・寄付者1,000人（目標値は市と設定）</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:14px">② 運用（年間／仮）― 導入後、市が自走</div>
+        <table class="t">
+          <tr><th style="width:100px">区分</th><th>項目</th><th style="width:190px;text-align:right">概算（仮）</th></tr>
+          <tr><td class="k" style="color:var(--pink-d)">収入</td><td>市民の投げ銭（延べ2,000人×平均800円）</td><td class="n" style="text-align:right">約160万円/年</td></tr>
+          <tr><td class="k" style="color:var(--pink-d)">収入</td><td>企業広告・標準CM枠（月2万円×10社）</td><td class="n" style="text-align:right">約240万円/年</td></tr>
+          <tr><td class="k" style="color:var(--pink-d)">収入</td><td>企業広告・特等席（年30万円×3社）</td><td class="n" style="text-align:right">約90万円/年</td></tr>
+          <tr><td class="k" style="color:var(--muted)">支出</td><td>保守・監視・サーバ等</td><td class="n" style="text-align:right;color:var(--muted)">約200〜300万円/年</td></tr>
+          <tr><td class="k">差引</td><td style="font-weight:800;color:var(--ink)">収入合計 約490万円/年（−保守）</td><td class="n" style="text-align:right">余剰は拡張原資へ</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">11 / 15</div>
+</section>
+
+<!-- ══ 12. つくり方 ══ -->
+<section class="slide" data-t="8｜どうやって実現するか（つくり方の要点）">
+  <div class="fg" style="grid-template-rows:auto 1fr;gap:30px">
+    <div>
+      <div class="kicker"><span class="sec">8</span><span class="kt">予算2,000万円を厳守し、ポンプ室に集中して品質を最大化</span></div>
+      <h2>どうやって実現するか（つくり方の要点）</h2>
+    </div>
+    <div class="cards" style="grid-template-columns:repeat(3,1fr);align-content:stretch">
+      <div class="card"><span class="cap"></span><div class="ct">まずはポンプ室に一点集中</div>
+        <div class="cb">初期は世界遺産ポンプ室のみを高精細に構築。中間駅周辺・メインストリートは今回は保留（将来拡張）。80インチでの没入感・クオリティを最大化。</div></div>
+      <div class="card"><span class="cap"></span><div class="ct">広告は景観に溶け込ませる</div>
+        <div class="cb">画面隅の小窓広告（PiP）は廃止。CM動画やロゴは看板・ポスター・飛行船として自然に配置し、電柱などのノイズは入れない。</div></div>
+      <div class="card"><span class="cap"></span><div class="ct">アプリ不要のPWA</div>
+        <div class="cb">専用アプリのDLは不要。QR・ブラウザから全国どこからでもアクセスでき、個人はログインも不要。</div></div>
+    </div>
+  </div>
+  <div class="pageno">12 / 15</div>
+</section>
+
+<!-- ══ 13. 運用・設置 ══ -->
+<section class="slide" data-t="9｜運用・設置">
+  <div class="fg" style="grid-template-rows:auto 1fr;gap:26px">
+    <div>
+      <div class="kicker"><span class="sec">9</span><span class="kt">誰が・どこで・どう回すか</span></div>
+      <h2>運用・設置</h2>
+    </div>
+    <table class="t" style="align-self:center">
+      <tr><th style="width:260px">項目</th><th>方針</th></tr>
+      <tr><td class="k">運用主体</td><td>中間市（自治体）が運用する想定。掲載可否の最終判断と管理者権限は市が保持。</td></tr>
+      <tr><td class="k">当社の関与</td><td>日常運用の受託は現時点では想定せず。システムの保守・サポートは必要に応じて提供。</td></tr>
+      <tr><td class="k">負荷を下げる仕組み</td><td>名前・メッセージは即時公開＋AI自動フィルタ（不適切語・個人情報・なりすまし検知）＋通報ボタン。管理画面から集計確認・ワンクリック非表示が可能。</td></tr>
+      <tr><td class="k">広告の審査</td><td>市の広告掲載基準（公序良俗・業種除外等）に沿って市が承認。差し替えは管理画面から申請→承認。</td></tr>
+      <tr><td class="k">設置場所（3拠点）</td><td>人が集まる施設に据え置き。中間市図書館／市役所／ほか1か所を想定。稼働は施設の開館時間、故障対応は保守で。</td></tr>
+    </table>
+  </div>
+  <div class="pageno">13 / 15</div>
+</section>
+
+<!-- ══ 14. 確認事項 ══ -->
+<section class="slide" data-t="10｜確認事項（要確認リスト）">
+  <div class="fg" style="grid-template-rows:auto 1fr;gap:26px">
+    <div>
+      <div class="kicker"><span class="sec">10</span><span class="kt">社内・対市・専門家に確認して確定する項目</span></div>
+      <h2>確認事項（要確認リスト）</h2>
+    </div>
+    <table class="t" style="align-self:center">
+      <tr><th style="width:60px">#</th><th>確認したいこと</th><th style="width:270px">確認先</th></tr>
+      <tr><td class="n">1</td><td>決済アカウントの名義：中間市（市／受け皿団体が加盟店）か、当社の収納代行か。手数料と市への精算方法も。</td><td class="k">市 出納・財政／税理士</td></tr>
+      <tr><td class="n">2</td><td>市民の少額寄付（控除なしの投げ銭）を、どの科目・どの受け皿で受けるか。</td><td class="k">市 財政課</td></tr>
+      <tr><td class="n">3</td><td>企業の広告収入の会計科目・消費税・領収書、および広告掲載基準。既存の広告掲載要綱に追加できるか。</td><td class="k">市 財政・広報</td></tr>
+      <tr><td class="n">4</td><td>デジタル田園都市国家構想交付金など、初期構築に充てられる交付金・補助金の有無。</td><td class="k">市 企画</td></tr>
+      <tr><td class="n">5</td><td>大モニター3拠点の設置場所の確定（図書館・市役所・他1か所）と、施設の稼働・電源・通信環境。</td><td class="k">市 施設担当</td></tr>
+    </table>
+  </div>
+  <div class="pageno">14 / 15</div>
+</section>
+
+<!-- ══ 15. まとめ ══ -->
+<section class="slide" data-t="まとめ">
+  <div class="art full"><img src="illust/未来レンガ/15_closing.png" alt=""></div>
+  <div class="scrim paper-l"></div>
+  <div class="tag">まとめ</div>
+  <div class="fg mid-l">
+    <div class="col-l" style="width:1000px">
+      <div class="rule"></div>
+      <h2 style="font-size:56px">予算2,000万円を厳守し、<br>ポンプ室に集中。<br>
+        <span style="color:var(--pink-d)">寄付＋広告の“2階建て”で、<br>市の持ち出しに頼らず自走する。</span></h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px">
+        <div class="card" >
+          <div class="ct" style="font-size:24px">見える化</div>
+          <div class="cb" style="font-size:18px">応援を街の画面に映し、参加を実感</div></div>
+        <div class="card" >
+          <div class="ct" style="font-size:24px">文化を未来へ</div>
+          <div class="cb" style="font-size:18px">世界遺産をデジタル保存し継承</div></div>
+        <div class="card" >
+          <div class="ct" style="font-size:24px">続く仕組み</div>
+          <div class="cb" style="font-size:18px">無限の壁＋広告で財源が育つ</div></div>
+      </div>
+      <div class="meta" style="margin-top:36px;color:var(--soft);font-size:21px">
+        <b style="color:var(--pink-d)">次のステップ</b>　数字・決済スキーム・交付金・設置場所を市と精査して確定 → ポンプ室での実装へ。<br>
+        <span style="color:var(--ink);font-weight:700">EXE MATE 株式会社</span>　<span style="color:var(--pink-d)">https://exemate.co.jp/</span>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">15 / 15</div>
+</section>
+
+</main>
+
+<nav id="bar">
+  <button id="b-toc">目次</button><button id="b-prev">← 前</button>
+  <span id="cnt">1 / 15</span>
+  <button id="b-next">次 →</button><button id="b-full">全画面</button><button id="b-print">PDFで保存</button><a href="02_未来レンガ_詳細_15枚.pdf" download>PDFダウンロード</a>
+</nav>
+<div id="toc"><h4>CONTENTS</h4><ol id="toc-list"></ol></div>
+
+<script>
+var AGENDA=["ひと言でいうと？（3つの価値）","体験の4ステップ／申込フロー","画面ではどう見える？",
+  "中核の仕組み「未来レンガ」","応援プラン（サポーター制度）","なぜ続くのか（収入の2つの柱）",
+  "収支の見取り図（叩き台）","どうやって実現するか","運用・設置","確認事項（要確認リスト）"];
+document.getElementById('agenda').innerHTML=AGENDA.map(function(a,i){
+  return '<li style="display:flex;gap:12px;align-items:baseline">'+
+    '<span style="font:800 18px/1.5 \'Segoe UI\',sans-serif;color:var(--pink-d);min-width:26px">'+
+    String(i+1).padStart(2,'0')+'</span><span style="color:var(--soft);line-height:1.5">'+a+'</span></li>';}).join('');
+
+
+
+/* 検査モード ?p=N */
+(function(){var m=(location.search||'').match(/[?&]p=(\d+)/);if(!m)return;
+  var n=parseInt(m[1],10);
+  [].slice.call(document.querySelectorAll('.slide')).forEach(function(s,i){if(i!==n-1)s.remove()});
+  var st=document.createElement('style');
+  st.textContent='#bar,#toc{display:none!important}body{background:#fff}#deck{padding:0;gap:0}'+
+    '.slide{transform:none!important;margin:0!important;box-shadow:none}';
+  document.head.appendChild(st)})();
+
+(function(){
+  var sl=[].slice.call(document.querySelectorAll('.slide')),cur=0;
+  var cnt=document.getElementById('cnt'),toc=document.getElementById('toc');
+  sl.forEach(function(s,i){s.id='page-'+(i+1)});
+  document.getElementById('toc-list').innerHTML=sl.map(function(s,i){
+    return '<li><a href="#page-'+(i+1)+'"><span class="n">'+String(i+1).padStart(2,'0')+
+      '</span>'+(s.dataset.t||'')+'</a></li>'}).join('');
+  function fit(){var s=Math.min((innerWidth-40)/1920,(innerHeight-116)/1080);
+    document.documentElement.style.setProperty('--s',Math.min(s,1))}
+  function go(i){cur=Math.max(0,Math.min(sl.length-1,i));
+    sl[cur].scrollIntoView({behavior:'smooth',block:'start'});show()}
+  function show(){cnt.textContent=(cur+1)+' / '+sl.length}
+  document.getElementById('b-prev').onclick=function(){go(cur-1)};
+  document.getElementById('b-next').onclick=function(){go(cur+1)};
+  document.getElementById('b-toc').onclick=function(){toc.classList.toggle('on')};
+  document.getElementById('b-print').onclick=function(){window.print()};
+  document.getElementById('b-full').onclick=function(){
+    document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()};
+  toc.onclick=function(e){if(e.target.closest('a')||e.target===toc)toc.classList.remove('on')};
+  addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1)}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1)}
+    if(e.key==='Escape')toc.classList.remove('on')});
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(en.isIntersecting){cur=sl.indexOf(en.target);show()}})},{threshold:.4});
+    sl.forEach(function(s){io.observe(s)})}
+  addEventListener('resize',fit);fit();show();
+})();
+</script>
+</body>
+</html>

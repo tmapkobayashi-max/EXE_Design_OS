@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EXE MATE Deck Shell</title>
+
+<!--
+  EXE Design OS - HTML Deck Shell
+  Version: 1.0
+
+  使い方（Codexへの指示）:
+    1. このファイルの <style> と <script> は一切変更しない。
+    2. <main id="deck"> の中の <section class="slide"> を差し替える／増やすだけ。
+    3. 色は必ず var(--exe-*) を使う。生のHEXをHTML側に書かない。
+    4. 1スライド = 1メッセージ。本文は2〜3行以内。
+    5. 使えるコンポーネントは下の「COMPONENT REFERENCE」にあるものだけ。
+       新しいレイアウトを発明しない。
+
+  ★色の主従について
+    現在は EXEMATE_AIスライド生成ガイド.md（パワポテンプレート実測値）に準拠し、
+    青 #0071BC を Primary、珊瑚 #FF6366 を Accent として設定している。
+    exe_visual_regulation.md v3.1 は珊瑚をMainとしており矛盾する。
+    松浦社長の判断で入れ替える場合は、下の :root ブロックの
+    --exe-primary と --exe-accent の2行を入れ替えるだけでよい。
+-->
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS  ★ここだけが色・寸法の唯一の出所★
+   ============================================================ */
+:root{
+  /* --- Brand colors (出所: パワポテンプレート_exe.pptx 実測) --- */
+  --exe-primary:      #0071BC;  /* メイン・図表・自社フロー */
+  --exe-primary-dark: #0A3A63;  /* 締め色・見出し・帯 */
+  --exe-accent:       #FF6366;  /* 差し色・強調。1スライド1箇所まで */
+  --exe-accent-pale:  #FF9696;
+  --exe-yellow:       #F8E700;  /* 限定アクセント */
+  --exe-pale:         #E2F1FA;  /* 面・背景 */
+  --exe-pale2:        #D6E4E7;  /* 罫線・淡面・現状課題 */
+  --exe-text:         #373737;  /* 本文 */
+  --exe-gray:         #B0B0B0;  /* 補助・罫線 */
+  --exe-white:        #FFFFFF;
+
+  /* 意味づけ（役割で呼ぶ。色名で呼ばない） */
+  --c-problem:  var(--exe-pale2);      /* 現状・課題・他社 */
+  --c-solution: var(--exe-primary);    /* 解決策・自社 */
+  --c-emphasis: var(--exe-accent);     /* ここぞの強調 */
+
+  /* --- Layout --- */
+  --slide-w: 1280px;
+  --slide-h: 720px;          /* 16:9。pptx版は10.833in×7.5inだがWebは16:9 */
+  --pad: 64px;               /* 外余白。規定の40px以上を満たす */
+  --gap: 24px;
+
+  /* --- Typography scale (Kankyu Hierarchy) --- */
+  --L1: 120px;   /* 実績数字。本文の3倍以上 */
+  --L2: 40px;    /* スライドタイトル */
+  --L3: 20px;    /* 本文 */
+  --L4: 13px;    /* 注釈・ノンブル */
+  --font-jp: "Meiryo","メイリオ","Yu Gothic","游ゴシック",sans-serif;
+  --font-en: "Montserrat","Segoe UI",sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#4a4a4a;font-family:var(--font-jp);color:var(--exe-text)}
+
+/* ============================================================
+   2. SLIDE FRAME
+   ============================================================ */
+#deck{
+  display:flex;flex-direction:column;align-items:center;gap:32px;
+  padding:32px 16px 96px;
+  scroll-snap-type:y mandatory;
+}
+.slide{
+  position:relative;flex:none;
+  width:var(--slide-w);height:var(--slide-h);max-width:100%;
+  aspect-ratio:16/9;
+  background:var(--exe-white);          /* 背景は白。装飾背景は禁止 */
+  padding:var(--pad);
+  display:flex;flex-direction:column;
+  scroll-snap-align:center;scroll-margin-top:16px;
+  box-shadow:0 4px 24px rgba(0,0,0,.35);
+  overflow:hidden;
+}
+/* 章扉のみベタ塗りを許可 */
+.slide.is-section{background:var(--exe-primary-dark);color:var(--exe-white)}
+.slide.is-section .s-title{color:var(--exe-white)}
+
+/* ノンブル：上部中央・算用数字のみ。ラベル文字は絶対に入れない */
+.slide::after{
+  content:attr(data-page);
+  position:absolute;top:20px;left:0;right:0;
+  text-align:center;
+  font-family:var(--font-en);font-size:var(--L4);
+  color:var(--exe-gray);letter-spacing:.05em;
+}
+.slide.is-cover::after{content:""}   /* 表紙は付けない */
+
+.s-title{
+  font-size:var(--L2);font-weight:700;line-height:1.3;
+  color:var(--exe-primary-dark);
+  margin-bottom:8px;flex:none;
+}
+.s-lead{font-size:var(--L3);line-height:1.7;max-width:62ch;flex:none}
+.s-body{flex:1;display:flex;align-items:center;margin-top:var(--gap)}
+.s-note{font-size:var(--L4);color:var(--exe-gray);margin-top:12px;flex:none}
+
+/* ============================================================
+   3. COMPONENT LIBRARY
+   03_COMPONENT_LIBRARY.md に対応。ここにあるものだけを使う。
+   ============================================================ */
+
+/* --- Hero：表紙・章扉・結論。1メッセージだけ --- */
+.c-hero{width:100%;text-align:left}
+.c-hero .h-main{font-size:60px;font-weight:700;line-height:1.25;color:var(--exe-primary-dark)}
+.c-hero .h-sub{font-size:24px;margin-top:20px;color:var(--exe-text)}
+.c-hero .h-meta{font-size:var(--L3);margin-top:48px;color:var(--exe-gray)}
+.slide.is-section .c-hero .h-main,
+.slide.is-section .c-hero .h-sub{color:var(--exe-white)}
+
+/* --- Compare：ビフォーアフター。中央に太矢印 --- */
+.c-compare{display:grid;grid-template-columns:1fr 72px 1fr;align-items:stretch;gap:var(--gap);width:100%}
+.c-compare .cmp-box{padding:32px;border-radius:8px}
+.c-compare .cmp-before{background:var(--c-problem)}
+.c-compare .cmp-after{background:var(--exe-pale);border:2px solid var(--c-solution)}
+.c-compare .cmp-label{font-size:var(--L4);font-weight:700;letter-spacing:.1em;margin-bottom:12px}
+.c-compare .cmp-before .cmp-label{color:var(--exe-text)}
+.c-compare .cmp-after  .cmp-label{color:var(--c-solution)}
+.c-compare .cmp-head{font-size:26px;font-weight:700;line-height:1.4;margin-bottom:12px}
+.c-compare .cmp-text{font-size:var(--L3);line-height:1.7}
+.c-compare .cmp-arrow{display:flex;align-items:center;justify-content:center;
+  font-size:44px;color:var(--c-solution);font-weight:700}
+
+/* --- Cards：課題・支援内容など。3つ以下=円形 / 4つ以上=角形 --- */
+.c-cards{display:grid;gap:var(--gap);width:100%}
+.c-cards[data-n="2"]{grid-template-columns:repeat(2,1fr)}
+.c-cards[data-n="3"]{grid-template-columns:repeat(3,1fr)}
+.c-cards[data-n="4"]{grid-template-columns:repeat(4,1fr)}
+.c-cards[data-n="5"],.c-cards[data-n="6"]{grid-template-columns:repeat(3,1fr)}
+.c-cards .card{padding:28px;background:var(--exe-pale);border-radius:8px}
+.c-cards.is-problem .card{background:var(--c-problem)}
+.c-cards.is-circle .card{
+  border-radius:50%;aspect-ratio:1;display:flex;flex-direction:column;
+  justify-content:center;text-align:center;padding:36px}
+.c-cards .card-icon{font-size:32px;color:var(--c-solution);margin-bottom:12px;line-height:1}
+.c-cards .card-head{font-size:22px;font-weight:700;margin-bottom:10px;line-height:1.4}
+.c-cards .card-text{font-size:16px;line-height:1.7}
+
+/* --- Flow：工程。3〜4=横型 / 5以上=縦型 --- */
+.c-flow{display:flex;align-items:stretch;gap:12px;width:100%}
+.c-flow .step{flex:1;padding:24px;background:var(--exe-pale);border-radius:8px;
+  border-top:4px solid var(--c-solution)}
+.c-flow .step-no{font-family:var(--font-en);font-size:var(--L4);font-weight:700;
+  color:var(--c-solution);letter-spacing:.1em;margin-bottom:8px}
+.c-flow .step-head{font-size:19px;font-weight:700;margin-bottom:8px;line-height:1.4}
+.c-flow .step-text{font-size:15px;line-height:1.6}
+.c-flow .step-arrow{display:flex;align-items:center;color:var(--exe-gray);font-size:24px}
+.c-flow.is-vertical{flex-direction:column;gap:8px}
+.c-flow.is-vertical .step{border-top:none;border-left:4px solid var(--c-solution);padding:16px 24px}
+.c-flow.is-vertical .step-arrow{justify-content:center;font-size:18px}
+
+/* --- Numbers：実績数字。必ず Level 1 --- */
+.c-numbers{display:grid;gap:40px;width:100%;text-align:center}
+.c-numbers[data-n="2"]{grid-template-columns:repeat(2,1fr)}
+.c-numbers[data-n="3"]{grid-template-columns:repeat(3,1fr)}
+.c-numbers[data-n="4"]{grid-template-columns:repeat(4,1fr)}
+.c-numbers .num{
+  font-family:var(--font-en);font-size:var(--L1);font-weight:700;line-height:1;
+  color:var(--c-solution);letter-spacing:-.02em}
+.c-numbers .num.is-emphasis{color:var(--c-emphasis)}  /* 1スライド1箇所まで */
+.c-numbers .num .unit{font-size:.4em;margin-left:.1em}
+.c-numbers .num-label{font-size:var(--L3);font-weight:700;margin-top:16px}
+.c-numbers .num-basis{font-size:var(--L4);color:var(--exe-gray);margin-top:8px}
+
+/* --- Timeline：ガントチャート --- */
+.c-timeline{width:100%}
+.c-timeline .tl-head{display:grid;grid-template-columns:200px repeat(var(--cols,4),1fr);
+  font-size:var(--L4);color:var(--exe-gray);border-bottom:1px solid var(--exe-pale2);padding-bottom:8px}
+.c-timeline .tl-row{display:grid;grid-template-columns:200px repeat(var(--cols,4),1fr);
+  align-items:center;padding:10px 0;border-bottom:1px solid var(--exe-pale2)}
+.c-timeline .tl-name{font-size:16px;font-weight:700}
+.c-timeline .tl-bar{height:22px;border-radius:11px;background:var(--c-solution);
+  grid-column:var(--from) / var(--to)}
+.c-timeline .tl-bar.is-client{background:var(--c-problem)}
+.c-timeline .tl-bar.is-milestone{background:var(--c-emphasis)}
+
+/* --- Relationship：構成図・入れ子 --- */
+.c-relation{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}
+.c-relation .rel-layer{width:100%;padding:20px 28px;border-radius:8px;text-align:center;
+  background:var(--exe-pale);border:1px solid var(--c-solution)}
+.c-relation .rel-layer.is-core{background:var(--c-solution);color:var(--exe-white);border:none}
+.c-relation .rel-head{font-size:20px;font-weight:700}
+.c-relation .rel-text{font-size:15px;margin-top:6px;line-height:1.6}
+.c-relation .rel-arrow{color:var(--exe-gray);font-size:22px}
+
+/* --- 図解:テキスト = 6:4 を守るための2カラム --- */
+.c-split{display:grid;grid-template-columns:6fr 4fr;gap:40px;align-items:center;width:100%}
+.c-split.is-reverse{grid-template-columns:4fr 6fr}
+.c-split img{width:100%;height:auto;border-radius:8px;display:block}
+
+/* ============================================================
+   4. NAVIGATION（Codexは触らない）
+   ============================================================ */
+#nav{position:fixed;bottom:0;left:0;right:0;height:56px;z-index:50;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:rgba(30,28,28,.92);color:#fff;font-size:13px;font-family:var(--font-jp)}
+#nav button{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;
+  padding:6px 14px;border-radius:4px;cursor:pointer;font-size:13px;font-family:inherit}
+#nav button:hover{background:rgba(255,255,255,.15)}
+#counter{font-family:var(--font-en);min-width:80px;text-align:center}
+#toc{position:fixed;inset:0;z-index:60;background:rgba(30,28,28,.97);color:#fff;
+  padding:48px;overflow:auto;display:none}
+#toc.open{display:block}
+#toc h2{font-size:14px;letter-spacing:.2em;color:var(--exe-gray);margin-bottom:24px}
+#toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+#toc a{color:#fff;text-decoration:none;display:block;padding:10px 14px;border-radius:4px;font-size:15px}
+#toc a:hover{background:rgba(255,255,255,.15)}
+#toc .n{font-family:var(--font-en);color:var(--exe-accent);margin-right:12px}
+
+@media print{
+  html,body{background:#fff}
+  #nav,#toc{display:none!important}
+  #deck{padding:0;gap:0}
+  .slide{box-shadow:none;page-break-after:always;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<main id="deck">
+
+<!-- ============================================================
+     COMPONENT REFERENCE / 実例
+     以下はサンプル。Codexはこの<section>群を案件内容で差し替える。
+     ============================================================ -->
+
+<!-- ---------- 1. Cover : c-hero ---------- -->
+<section class="slide is-cover" data-page="1" data-title="表紙">
+  <div class="s-body">
+    <div class="c-hero">
+      <div class="h-main">〇〇のご提案</div>
+      <div class="h-sub">サブタイトルを1行で</div>
+      <div class="h-meta">2026年7月23日　EXE MATE株式会社</div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- 2. 現状 : c-compare ---------- -->
+<section class="slide" data-page="2" data-title="現状と、これから">
+  <h2 class="s-title">現状と、これから</h2>
+  <p class="s-lead">いまの運用のままだと、どこに負担が残るのかを整理しました。</p>
+  <div class="s-body">
+    <div class="c-compare">
+      <div class="cmp-box cmp-before">
+        <div class="cmp-label">BEFORE</div>
+        <div class="cmp-head">紙とExcelの二重入力</div>
+        <p class="cmp-text">同じ数字を3か所に書き写している。<br>転記ミスの発見は月末まで分からない。</p>
+      </div>
+      <div class="cmp-arrow">▶</div>
+      <div class="cmp-box cmp-after">
+        <div class="cmp-label">AFTER</div>
+        <div class="cmp-head">入力は1回だけ</div>
+        <p class="cmp-text">現場でスマホに入れれば、あとは自動でそろう。<br>ミスはその場で分かる。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- 3. 課題 : c-cards（3つ=円形・課題色） ---------- -->
+<section class="slide" data-page="3" data-title="いま起きていること">
+  <h2 class="s-title">いま起きていること</h2>
+  <div class="s-body">
+    <div class="c-cards is-circle is-problem" data-n="3">
+      <div class="card">
+        <div class="card-head">転記ミス</div>
+        <p class="card-text">月20件。手戻りに毎回30分。</p>
+      </div>
+      <div class="card">
+        <div class="card-head">属人化</div>
+        <p class="card-text">ベテラン1名しか判断できない。</p>
+      </div>
+      <div class="card">
+        <div class="card-head">見えない</div>
+        <p class="card-text">今どうなっているかが分からない。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- 4. 提案 : c-hero（章扉スタイル） ---------- -->
+<section class="slide is-section" data-page="4" data-title="ご提案">
+  <div class="s-body">
+    <div class="c-hero">
+      <div class="h-main">スマホでスキャンするだけ。<br>あとは、システムが合わせます。</div>
+      <div class="h-sub">EXE MATEの必殺技：モバイル一括入力＋自動照合エンジン</div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- 5. 構成 : c-relation ---------- -->
+<section class="slide" data-page="5" data-title="仕組み">
+  <h2 class="s-title">仕組み</h2>
+  <div class="s-body">
+    <div class="c-relation">
+      <div class="rel-layer">
+        <div class="rel-head">現場（スマホ）</div>
+        <p class="rel-text">バーコードを読むだけ。入力欄は1つ。</p>
+      </div>
+      <div class="rel-arrow">▼</div>
+      <div class="rel-layer is-core">
+        <div class="rel-head">自動照合エンジン</div>
+        <p class="rel-text">在庫・伝票・実績を突き合わせ、差異だけを知らせる。</p>
+      </div>
+      <div class="rel-arrow">▼</div>
+      <div class="rel-layer">
+        <div class="rel-head">事務所（管理画面）</div>
+        <p class="rel-text">確認するのは、差異が出た分だけでよくなる。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- 6. 効果 : c-numbers（Level 1） ---------- -->
+<section class="slide" data-page="6" data-title="導入後の効果">
+  <h2 class="s-title">導入後の効果</h2>
+  <div class="s-body">
+    <div class="c-numbers" data-n="3">
+      <div>
+        <div class="num">20<span class="unit">%</span></div>
+        <div class="num-label">運用コスト削減</div>
+        <div class="num-basis">同規模3社の導入1年後実績</div>
+      </div>
+      <div>
+        <div class="num is-emphasis">50<span class="unit">%</span></div>
+        <div class="num-label">作業時間短縮</div>
+        <div class="num-basis">日次入力作業の実測比較</div>
+      </div>
+      <div>
+        <div class="num">0<span class="unit">件</span></div>
+        <div class="num-label">転記ミス</div>
+        <div class="num-basis">二重入力を廃止したため</div>
+      </div>
+    </div>
+  </div>
+  <p class="s-note">数字は必ず根拠を添える。根拠のない数字は載せない。</p>
+</section>
+
+<!-- ---------- 7. 進め方 : c-flow（4工程=横型） ---------- -->
+<section class="slide" data-page="7" data-title="進め方">
+  <h2 class="s-title">進め方</h2>
+  <div class="s-body">
+    <div class="c-flow">
+      <div class="step"><div class="step-no">STEP 1</div><div class="step-head">現場調査</div><p class="step-text">実際の伝票を1週間分お預かりします。</p></div>
+      <div class="step-arrow">▶</div>
+      <div class="step"><div class="step-no">STEP 2</div><div class="step-head">試作</div><p class="step-text">御社の実データで動く形にします。</p></div>
+      <div class="step-arrow">▶</div>
+      <div class="step"><div class="step-no">STEP 3</div><div class="step-head">現場テスト</div><p class="step-text">1拠点で2週間お試しいただきます。</p></div>
+      <div class="step-arrow">▶</div>
+      <div class="step"><div class="step-no">STEP 4</div><div class="step-head">本稼働</div><p class="step-text">全拠点へ展開し、運用に引き継ぎます。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- 8. 予定 : c-timeline ---------- -->
+<section class="slide" data-page="8" data-title="スケジュール">
+  <h2 class="s-title">スケジュール</h2>
+  <div class="s-body">
+    <div class="c-timeline" style="--cols:4">
+      <div class="tl-head"><div></div><div>1か月目</div><div>2か月目</div><div>3か月目</div><div>4か月目</div></div>
+      <div class="tl-row"><div class="tl-name">現場調査</div><div class="tl-bar" style="--from:2;--to:3"></div></div>
+      <div class="tl-row"><div class="tl-name">試作・調整</div><div class="tl-bar" style="--from:3;--to:5"></div></div>
+      <div class="tl-row"><div class="tl-name">現場テスト</div><div class="tl-bar is-client" style="--from:4;--to:5"></div></div>
+      <div class="tl-row"><div class="tl-name">本稼働</div><div class="tl-bar is-milestone" style="--from:5;--to:6"></div></div>
+    </div>
+  </div>
+  <p class="s-note">青＝EXE MATE作業／グレー＝御社ご対応／珊瑚＝稼働。</p>
+</section>
+
+<!-- ---------- 9. 次の一手 : c-hero ---------- -->
+<section class="slide" data-page="9" data-title="次の一手">
+  <h2 class="s-title">次の一手</h2>
+  <div class="s-body">
+    <div class="c-hero">
+      <div class="h-main">まず、伝票を1週間分。</div>
+      <div class="h-sub">御社の実データで試作をお見せします。費用はかかりません。</div>
+      <div class="h-meta">EXE MATE株式会社　担当：小林</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<nav id="nav">
+  <button id="btn-toc">目次</button>
+  <button id="btn-prev">← 前</button>
+  <span id="counter">1 / 1</span>
+  <button id="btn-next">次 →</button>
+  <button id="btn-full">全画面</button>
+</nav>
+
+<div id="toc"><h2>CONTENTS</h2><ol id="toc-list"></ol></div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var counter=document.getElementById('counter');
+  var toc=document.getElementById('toc');
+  var cur=0;
+
+  // ノンブルとアンカーを自動採番。手書きしない。
+  slides.forEach(function(s,i){
+    s.id='page-'+(i+1);
+    s.setAttribute('data-page',i+1);
+  });
+
+  document.getElementById('toc-list').innerHTML=slides.map(function(s,i){
+    return '<li><a href="#page-'+(i+1)+'"><span class="n">'+
+      String(i+1).padStart(2,'0')+'</span>'+(s.dataset.title||'')+'</a></li>';
+  }).join('');
+
+  function go(i){
+    cur=Math.max(0,Math.min(slides.length-1,i));
+    slides[cur].scrollIntoView({behavior:'smooth',block:'center'});
+    render();
+  }
+  function render(){counter.textContent=(cur+1)+' / '+slides.length;}
+
+  document.getElementById('btn-prev').onclick=function(){go(cur-1)};
+  document.getElementById('btn-next').onclick=function(){go(cur+1)};
+  document.getElementById('btn-toc').onclick=function(){toc.classList.toggle('open')};
+  document.getElementById('btn-full').onclick=function(){
+    if(document.fullscreenElement){document.exitFullscreen()}
+    else{document.documentElement.requestFullscreen()}
+  };
+  toc.onclick=function(e){if(e.target.closest('a')||e.target===toc)toc.classList.remove('open')};
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1)}
+    if(e.key==='ArrowLeft' ||e.key==='PageUp'){e.preventDefault();go(cur-1)}
+    if(e.key==='Escape')toc.classList.remove('open');
+  });
+
+  // スクロール位置から現在ページを追従
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(en.isIntersecting){cur=slides.indexOf(en.target);render()}
+      });
+    },{threshold:.5});
+    slides.forEach(function(s){io.observe(s)});
+  }
+
+  // 起動時のハッシュを反映
+  var m=(location.hash||'').match(/page-(\d+)/);
+  if(m)cur=parseInt(m[1],10)-1;
+  render();
+})();
+</script>
+</body>
+</html>

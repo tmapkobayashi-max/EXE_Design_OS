@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>NAKAMATE!｜中間市ご提案｜EXE MATE株式会社</title>
+<style>
+/* ============================================================
+   EXE Design OS — Deck v3（イラスト全面ブリード版）
+   ・絵は箱に入れない。端まで断ち落とす
+   ・文字は絵の上にグラデーションで減光して重ねる
+   ・レイアウトはCSS Grid。絶対配置で本文を置かない
+   ============================================================ */
+:root{
+  --paper:#F7F3EC; --paper2:#FCFAF5; --ink:#1E1C1C; --soft:#5F5A57; --muted:#A9A29E;
+  --pink:#FF6366; --pink-d:#D9484B; --pink-p:#FFE7E7;
+  --grey:#D6E4E7; --yellow:#F8E700; --dark:#1A1718; --rule:rgba(30,28,28,.13);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#2c2a29;font-family:"Yu Gothic","游ゴシック体",YuGothic,"Hiragino Sans","Meiryo",sans-serif;
+     -webkit-font-smoothing:antialiased}
+#deck{display:flex;flex-direction:column;align-items:center;gap:26px;padding:26px 16px 96px}
+
+.slide{position:relative;width:1920px;height:1080px;flex:none;overflow:hidden;
+  transform:scale(var(--s,.6));transform-origin:top center;
+  margin-bottom:calc((var(--s,.6) - 1) * 1080px);
+  background:var(--paper);color:var(--ink);box-shadow:0 24px 74px rgba(0,0,0,.46)}
+.slide::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.55;
+  background-image:
+    repeating-linear-gradient(0deg,transparent 0 2px,rgba(30,28,28,.026) 2px 3px),
+    repeating-linear-gradient(90deg,transparent 0 5px,rgba(30,28,28,.016) 5px 6px)}
+
+.art{position:absolute;z-index:0;overflow:hidden}
+.art img{width:100%;height:100%;object-fit:cover;display:block}
+.art.band img{object-position:center 55%}
+.art.full{inset:0}
+.art.band{left:0;right:0;top:0;height:58%}
+.art.right{top:0;bottom:0;right:0;width:62%}
+.art.left{top:0;bottom:0;left:0;width:58%}
+
+.scrim{position:absolute;z-index:1;pointer-events:none}
+.scrim.dark-l{inset:0;background:linear-gradient(88deg,rgba(20,17,18,.96) 0%,rgba(20,17,18,.9) 32%,rgba(20,17,18,.38) 58%,rgba(20,17,18,.06) 100%)}
+.scrim.paper-l{inset:0;background:linear-gradient(90deg,var(--paper) 0%,var(--paper) 27%,rgba(247,243,236,.94) 41%,rgba(247,243,236,0) 63%)}
+.scrim.paper-r{inset:0;background:linear-gradient(270deg,var(--paper) 0%,var(--paper) 27%,rgba(247,243,236,.94) 41%,rgba(247,243,236,0) 63%)}
+.scrim.band-b{left:0;right:0;top:0;height:58%;
+  background:linear-gradient(180deg,rgba(247,243,236,.45) 0%,rgba(247,243,236,0) 26%,rgba(247,243,236,.6) 74%,var(--paper) 100%)}
+
+.fg{position:absolute;inset:0;z-index:5;display:grid;padding:82px 112px 76px}
+.tag{position:absolute;left:112px;top:60px;z-index:8;font-size:21px;font-weight:700;
+  letter-spacing:.12em;color:var(--muted)}
+.on-dark .tag{color:rgba(255,255,255,.52)}
+.pageno{position:absolute;right:58px;bottom:38px;z-index:8;
+  font:600 21px/1 "Segoe UI",sans-serif;color:var(--soft);letter-spacing:.08em;
+  background:rgba(247,243,236,.72);padding:7px 12px;border-radius:6px}
+.on-dark .pageno{color:rgba(255,255,255,.62);background:rgba(20,17,18,.5)}
+
+.rule{width:88px;height:7px;background:var(--pink);border-radius:4px;margin-bottom:26px}
+.kicker{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.kicker .sec{display:grid;place-items:center;min-width:40px;height:40px;padding:0 12px;border-radius:9px;
+  background:var(--pink);color:#fff;font:900 19px/1 "Segoe UI",sans-serif}
+.kicker .kt{font-size:21px;font-weight:800;letter-spacing:.1em;color:var(--pink-d)}
+h1{font-size:112px;font-weight:900;line-height:1.14;letter-spacing:-.035em}
+h2{font-size:66px;font-weight:900;line-height:1.2;letter-spacing:-.03em}
+h3{font-size:40px;font-weight:900;line-height:1.28;letter-spacing:-.02em}
+.lead{margin-top:22px;font-size:26px;line-height:1.7;color:var(--soft);max-width:1080px}
+.on-dark h1,.on-dark h2,.on-dark h3{color:#fff}
+.on-dark .lead{color:#CFC7C2}
+.on-dark .kicker .kt{color:#FF9A9C}
+.meta{margin-top:44px;font-size:22px;color:var(--muted);letter-spacing:.04em}
+.on-dark .meta{color:#948B86}
+
+.mid-l{align-content:center;justify-items:start}
+.col-l{width:900px}
+.col-r{width:840px;margin-left:auto}
+
+.cards{display:grid;gap:22px}
+.card{background:rgba(252,250,245,.93);border:1px solid var(--rule);border-radius:16px;padding:28px 26px;
+  backdrop-filter:blur(3px);display:flex;flex-direction:column;justify-content:center}
+.card .ct{font-size:26px;font-weight:900;line-height:1.3}
+.card .cb{margin-top:11px;font-size:19px;line-height:1.7;color:var(--soft)}
+.card .cap{display:block;width:50px;height:6px;border-radius:3px;background:var(--pink);margin-bottom:16px}
+.card .no{font:900 19px/1 "Segoe UI",sans-serif;color:var(--pink-d);letter-spacing:.1em;margin-bottom:10px}
+
+.fn{display:flex;align-items:center;gap:13px;margin-bottom:4px}
+.fn .n{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;
+  background:var(--pink);color:#fff;font:900 21px/1 "Segoe UI",sans-serif}
+.fn .w{font-size:27px;font-weight:900;color:var(--ink);letter-spacing:-.01em}
+.card .ico{display:block;margin-bottom:14px}
+.blk{display:flex;flex-direction:column;gap:10px}
+.blk .lb{display:inline-block;align-self:flex-start;font-size:18px;font-weight:800;letter-spacing:.08em;
+  color:#fff;background:var(--pink);padding:6px 14px;border-radius:6px}
+.blk .bt{font-size:38px;font-weight:900;line-height:1.28;letter-spacing:-.02em}
+.blk .bb{font-size:20px;line-height:1.7;color:var(--soft)}
+.demo{display:inline-block;margin-top:6px;font-size:17px;font-weight:800;color:var(--pink-d);
+  border:2px solid var(--pink);border-radius:999px;padding:5px 14px;align-self:flex-start}
+
+.big{font:900 var(--bs,120px)/1 "Segoe UI",sans-serif;color:var(--pink);letter-spacing:-.035em}
+.foot{font-size:19px;line-height:1.6;color:var(--soft)}
+.foot b{color:var(--pink-d);font-weight:800}
+svg text{font-family:"Yu Gothic","游ゴシック体",YuGothic,"Hiragino Sans","Meiryo",sans-serif}
+
+#bar{position:fixed;left:0;right:0;bottom:0;height:56px;z-index:60;display:flex;align-items:center;
+  justify-content:center;gap:10px;background:rgba(22,19,19,.95);backdrop-filter:blur(12px);color:#fff;font-size:14px}
+#bar button{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.17);color:#fff;
+  padding:9px 18px;border-radius:999px;cursor:pointer;font:inherit}
+#bar button:hover{background:rgba(255,99,102,.24);border-color:rgba(255,99,102,.55)}
+#bar a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.17);color:#fff;
+  padding:9px 18px;border-radius:999px;font:inherit}
+#bar a:hover{background:rgba(255,99,102,.24);border-color:rgba(255,99,102,.55)}
+#cnt{font:600 14px/1 "Segoe UI",sans-serif;min-width:70px;text-align:center;color:#d8d1ce}
+#toc{position:fixed;inset:0;z-index:70;background:rgba(20,17,17,.97);color:#fff;padding:54px;overflow:auto;display:none}
+#toc.on{display:block}
+#toc h4{font-size:13px;letter-spacing:.2em;color:var(--pink);margin-bottom:24px}
+#toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:6px}
+#toc a{color:#eae5e2;text-decoration:none;display:flex;gap:16px;padding:12px 16px;border-radius:8px;font-size:16px}
+#toc a:hover{background:rgba(255,99,102,.18)}
+#toc .n{font:700 13px/1.5 "Segoe UI",sans-serif;color:var(--pink);min-width:26px}
+@media print{body{background:#fff}#bar,#toc{display:none!important}#deck{padding:0;gap:0}
+  .slide{transform:none!important;margin:0!important;box-shadow:none;page-break-after:always}
+  @page{size:1920px 1080px;margin:0}}
+</style>
+</head>
+<body>
+<main id="deck">
+
+<!-- ══ 1. 表紙 ══ -->
+<section class="slide on-dark" data-t="表紙｜NAKAMATE!">
+  <div class="art full"><img src="illust/NAKAMATE/01_cover.png" alt=""></div>
+  <div class="scrim dark-l"></div>
+  <div class="tag">EXE MATE 株式会社　｜　中間市 ご提案</div>
+  <div class="fg mid-l">
+    <div class="col-l">
+      <div class="rule"></div>
+      <div class="kicker"><span class="kt">参加型デジタルサイネージ構想</span></div>
+      <h1>NAKAMATE!</h1>
+      <p class="lead">中間市を『知る・遊ぶ・描く・伝える・応援する』。<br>まちの魅力を、市民が参加したくなる体験へ。</p>
+      <div class="meta">地域交流センター設置想定　｜　2026.07</div>
+    </div>
+  </div>
+  <div class="pageno">01 / 13</div>
+</section>
+
+<!-- ══ 2. 現状 ══ -->
+<section class="slide" data-t="現状｜魅力と参加が、まだつながっていない">
+  <div class="art right"><img src="illust/NAKAMATE/02_gap.png" alt=""></div>
+  <div class="scrim paper-l"></div>
+  <div class="fg mid-l">
+    <div class="col-l" style="width:860px">
+      <div class="kicker"><span class="kt">現状</span></div>
+      <h2>魅力と参加が、<br>まだつながっていない</h2>
+      <div class="cards" style="grid-template-columns:1fr;margin-top:36px">
+        <div class="card" style="border-left:7px solid var(--grey)">
+          <div class="no" style="color:var(--soft)">いま</div>
+          <div class="ct">「見る情報」で止まっている</div>
+          <div class="cb">100年のポンプ場、市民と企業、子どもたち。伝えたい魅力は、すでに中間市にある。</div>
+        </div>
+        <div class="card" style="border-left:7px solid var(--pink)">
+          <div class="no">課題</div>
+          <div class="ct">参加への導線がない</div>
+          <div class="cb">広報紙や掲示板だけでは、まちづくりに関わるきっかけになりにくい。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">02 / 13</div>
+</section>
+
+<!-- ══ 3. 5つの機能 ══ -->
+<section class="slide" data-t="全体像｜5つの体験が、まちとの接点になる">
+  <div class="fg" style="grid-template-rows:auto 1fr;gap:36px">
+    <div>
+      <div class="kicker"><span class="kt">全体像　NAKAMATE! の5つの機能</span></div>
+      <h2>まちの魅力を、参加の入口に変える。</h2>
+    </div>
+    <div class="cards" style="grid-template-columns:repeat(5,1fr);align-content:stretch">
+      <div class="card"><svg class="ico" width="54" height="54" viewBox="0 0 54 54" fill="none" stroke="#FF6366" stroke-width="2.6" stroke-linejoin="round"><path d="M27 15c-4-3-9-4-15-4v29c6 0 11 1 15 4 4-3 9-4 15-4V11c-6 0-11 1-15 4Z"/><path d="M27 15v29"/></svg><div class="no">01</div><div class="ct" style="font-size:30px">知る</div>
+        <div class="cb">風景・イベント・建造物にふれる</div></div>
+      <div class="card"><svg class="ico" width="54" height="54" viewBox="0 0 54 54" fill="none" stroke="#FF6366" stroke-width="2.6" stroke-linecap="round"><rect x="7" y="17" width="40" height="22" rx="11"/><path d="M16 24v8M12 28h8M35 26h.1M40 32h.1"/></svg><div class="no">02</div><div class="ct" style="font-size:30px">遊ぶ</div>
+        <div class="cb">「もう一回」が、まちを知る入口に</div></div>
+      <div class="card"><svg class="ico" width="54" height="54" viewBox="0 0 54 54" fill="none" stroke="#FF6366" stroke-width="2.6" stroke-linejoin="round"><path d="M11 43l3-10L36 11a4 4 0 0 1 6 6L20 39l-9 4Z"/><path d="M32 15l6 6"/></svg><div class="no">03</div><div class="ct" style="font-size:30px">描く</div>
+        <div class="cb">「また行きたい」が、触れ合いをつくる</div></div>
+      <div class="card"><svg class="ico" width="54" height="54" viewBox="0 0 54 54" fill="none" stroke="#FF6366" stroke-width="2.6" stroke-linejoin="round"><rect x="9" y="12" width="36" height="30" rx="3"/><path d="M9 34l9-9 7 7 8-9 12 12"/><circle cx="20" cy="21" r="3"/></svg><div class="no">04</div><div class="ct" style="font-size:30px">伝える</div>
+        <div class="cb">作品を、家族と地域で共有する</div></div>
+      <div class="card"><svg class="ico" width="54" height="54" viewBox="0 0 54 54" fill="none" stroke="#FF6366" stroke-width="2.6" stroke-linejoin="round"><path d="M11 22h7l16-9v28l-16-9h-7z"/><path d="M18 22v12M40 20a9 9 0 0 1 0 14"/></svg><div class="no">05</div><div class="ct" style="font-size:30px">応援する</div>
+        <div class="cb">「応援したい」を、壁に刻む</div></div>
+    </div>
+  </div>
+  <div class="pageno">03 / 13</div>
+</section>
+
+<!-- ══ 4. EXEの必殺技 ══ -->
+<section class="slide" data-t="提案｜まちの魅力を、参加したくなる体験へ">
+  <div class="art right"><img src="illust/NAKAMATE/04_bigscreen.png" alt=""></div>
+  <div class="scrim paper-l"></div>
+  <div class="fg mid-l">
+    <div class="col-l" style="width:820px">
+      <div class="rule"></div>
+      <div class="kicker"><span class="kt">EXEの必殺技</span></div>
+      <h2>地域交流センターの<br>大画面を、<br><span style="color:var(--pink-d)">まちと市民をつなぐ<br>入口に。</span></h2>
+      <p class="lead">既存パッケージ imagi_mate をベースに、<br>短期間・低コストで立ち上げます。</p>
+    </div>
+  </div>
+  <div class="pageno">04 / 13</div>
+</section>
+
+<!-- ══ 5. 知る ══ -->
+<section class="slide" data-t="01 知る｜中間市の魅力に、ふれる">
+  <div class="art right"><img src="illust/NAKAMATE/05_shiru.png" alt=""></div>
+  <div class="scrim paper-l"></div>
+  <div class="fg mid-l">
+    <div class="col-l" style="width:800px">
+      <div class="kicker"><span class="kt">体験メニュー</span></div>
+      <div class="fn"><span class="n">01</span><span class="w">知る</span></div>
+      <h2>見るだけで終わらせない。<br>次の体験へつなぐ。</h2>
+      <p class="lead">写真や紹介動画で、まちの風景・イベント・建造物にふれる。<br>気になった瞬間が、次の「遊ぶ」へ続く。</p>
+    </div>
+  </div>
+  <div class="pageno">05 / 13</div>
+</section>
+
+<!-- ══ 6. 遊ぶ・描く ══ -->
+<section class="slide" data-t="02 遊ぶ｜03 描く｜本日ご体験いただけます">
+  <div class="art left"><img src="illust/NAKAMATE/06_asobu_kaku.png" alt=""></div>
+  <div class="scrim paper-r"></div>
+  <div class="fg" style="justify-items:end;align-content:center">
+    <div class="col-r">
+      <div class="kicker"><span class="kt">体験メニュー</span></div>
+      <div style="display:flex;flex-direction:column;gap:34px;margin-top:12px">
+        <div class="blk">
+          <div class="fn"><span class="n">02</span><span class="w">遊ぶ</span></div>
+          <div class="bt">カードを揃えると、<br>まちの物語が動き出す。</div>
+          <div class="bb">市の特徴を神経衰弱ゲームに。絵柄に応じた紹介動画が流れ、子どもの「もう一回」が学びになる。</div>
+          <span class="demo">本日ご体験いただけます</span>
+        </div>
+        <div class="blk">
+          <div class="fn"><span class="n">03</span><span class="w">描く</span></div>
+          <div class="bt">画面に直接描く。<br>その日の思い出を残す。</div>
+          <div class="bb">マスコットをスタンプにして、画像も動き方もカスタマイズ。子どもの「また行きたい」を育てる。</div>
+          <span class="demo">本日ご体験いただけます</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">06 / 13</div>
+</section>
+
+<!-- ══ 7. 5機能の循環 ══ -->
+<section class="slide" data-t="体験設計｜5つの機能が、ひとつの画面でつながる">
+  <div class="fg" style="grid-template-columns:.92fr 1.08fr;gap:56px;align-items:center">
+    <div>
+      <div class="kicker"><span class="kt">体験設計</span></div>
+      <h2 style="font-size:58px">5つの機能が、<br>ひとつの画面で<br>つながる</h2>
+      <p class="lead" style="font-size:24px">一度の来館で生まれた興味が、次の参加へ自然に続く設計です。</p>
+      <ul class="bullets" style="margin-top:32px;font-size:21px;list-style:none;display:flex;flex-direction:column;gap:14px">
+        <li style="display:flex;gap:12px"><span style="color:var(--pink)">●</span>見て終わらせず、その場で遊び、描ける</li>
+        <li style="display:flex;gap:12px"><span style="color:var(--pink)">●</span>つくったものが展示され、家族と地域に届く</li>
+        <li style="display:flex;gap:12px"><span style="color:var(--pink)">●</span>応援が見えることが、次の来館の理由になる</li>
+      </ul>
+    </div>
+    <div style="display:grid;place-items:center;min-height:0">
+      <svg viewBox="0 0 900 700" style="width:100%;height:100%;max-height:820px">
+        <defs><marker id="a7" markerUnits="userSpaceOnUse" markerWidth="26" markerHeight="26"
+          refX="9" refY="7" orient="auto"><path d="M0 0L14 7L0 14z" fill="#FF6366"/></marker></defs>
+        <g fill="none" stroke="#FF6366" stroke-width="9" marker-end="url(#a7)">
+          <path d="M550 140A215 215 0 0 1 600 176"/>
+          <path d="M662 366A215 215 0 0 1 643 425"/>
+          <path d="M481 543A215 215 0 0 1 419 543"/>
+          <path d="M257 425A215 215 0 0 1 238 366"/>
+          <path d="M300 176A215 215 0 0 1 350 140"/>
+        </g>
+        <g fill="#FCFAF5" stroke="#1E1C1C" stroke-width="6">
+          <circle cx="450" cy="115" r="100"/><circle cx="654" cy="264" r="100"/>
+          <circle cx="576" cy="504" r="100"/><circle cx="324" cy="504" r="100"/>
+          <circle cx="246" cy="264" r="100"/>
+        </g>
+        <g text-anchor="middle" font-size="30" font-weight="900" fill="#1E1C1C">
+          <text x="450" y="127">知る</text><text x="654" y="276">遊ぶ</text>
+          <text x="576" y="516">描く</text><text x="324" y="516">伝える</text>
+          <text x="246" y="276">応援する</text>
+        </g>
+        <text x="450" y="350" text-anchor="middle" font-size="28" font-weight="900" fill="#D9484B">NAKAMATE!</text>
+        <text x="450" y="392" text-anchor="middle" font-size="21" fill="#5F5A57">地域交流センターの大画面</text>
+      </svg>
+    </div>
+  </div>
+  <div class="pageno">07 / 13</div>
+</section>
+
+<!-- ══ 8. 伝える・応援する ══ -->
+<section class="slide" data-t="04 伝える｜05 応援する｜表現と支援が、まちに残る">
+  <div class="art right"><img src="illust/NAKAMATE/08_tsutaeru_ouen.png" alt=""></div>
+  <div class="scrim paper-l"></div>
+  <div class="fg mid-l">
+    <div class="col-l" style="width:840px">
+      <div class="kicker"><span class="kt">参加と応援</span></div>
+      <div style="display:flex;flex-direction:column;gap:34px;margin-top:12px">
+        <div class="blk">
+          <div class="fn"><span class="n">04</span><span class="w">伝える</span></div>
+          <div class="bt">子どもの作品を、<br>地域のギャラリーへ。</div>
+          <div class="bb">集めた作品を管理画面から反映。テーマやイベントごとに一覧表示し、家族や地域と共有します。</div>
+        </div>
+        <div class="blk">
+          <div class="fn"><span class="n">05</span><span class="w">応援する</span></div>
+          <div class="bt">市民と企業の名前を、<br>未来へ刻む。</div>
+          <div class="bb">サポーターとスポンサーをレンガの壁に表示。企業スポンサーはCM動画も流せ、QRから参加できます。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">08 / 13</div>
+</section>
+
+<!-- ══ 9. 応援の循環 ══ -->
+<section class="slide" data-t="応援の循環｜継続的な応援が、次の参加を生む">
+  <div class="fg" style="grid-template-rows:1fr auto;gap:34px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;min-height:0">
+    <div>
+      <div class="kicker"><span class="kt">市民の参加 × 地域企業の応援</span></div>
+      <h2>応援が見えると、<br>参加は続いていく。</h2>
+      <p class="lead">名前が刻まれ、作品が見られ、次の来館の理由になる。<br>「応援したい」を、まちの共通体験へ変えます。</p>
+    </div>
+    <div style="display:grid;place-items:center;min-height:0">
+      <svg viewBox="0 0 830 620" style="width:100%;height:100%;max-height:580px">
+        <defs><marker id="a9" markerUnits="userSpaceOnUse" markerWidth="26" markerHeight="26"
+          refX="9" refY="7" orient="auto"><path d="M0 0L14 7L0 14z" fill="#FF6366"/></marker></defs>
+        <g fill="none" stroke="#FF6366" stroke-width="9" marker-end="url(#a9)">
+          <path d="M513 130A205 205 0 0 1 595 212"/>
+          <path d="M595 408A205 205 0 0 1 513 490"/>
+          <path d="M317 490A205 205 0 0 1 235 408"/>
+          <path d="M235 212A205 205 0 0 1 317 130"/>
+        </g>
+        <g fill="#FCFAF5" stroke="#1E1C1C" stroke-width="6">
+          <circle cx="415" cy="105" r="98"/><circle cx="620" cy="310" r="98"/>
+          <circle cx="415" cy="515" r="98"/><circle cx="210" cy="310" r="98"/>
+        </g>
+        <g text-anchor="middle" font-size="23" font-weight="700" fill="#1E1C1C">
+          <text x="415" y="114">市民が参加</text><text x="620" y="319">企業が応援</text>
+          <text x="415" y="524">まちに共有</text><text x="210" y="319">次の来館へ</text>
+        </g>
+      </svg>
+    </div>
+    </div>
+    <div class="cards" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><span class="cap"></span><div class="ct" style="font-size:23px">名前が、まちに残る</div>
+        <div class="cb">刻まれた名前は消えず、いつでも会いに行ける。</div></div>
+      <div class="card"><span class="cap"></span><div class="ct" style="font-size:23px">作品が、人に見られる</div>
+        <div class="cb">子どもの表現が、家族と地域に届く。</div></div>
+      <div class="card"><span class="cap"></span><div class="ct" style="font-size:23px">次に来る理由になる</div>
+        <div class="cb">「どうなったかな」が、次の来館をつくる。</div></div>
+    </div>
+  </div>
+  <div class="pageno">09 / 13</div>
+</section>
+
+<!-- ══ 10. 設置イメージ ══ -->
+<section class="slide" data-t="設置イメージ｜地域交流センターが、日常の入口になる">
+  <div class="art band"><img src="illust/NAKAMATE/10_center.png" alt=""></div>
+  <div class="scrim band-b"></div>
+  <div class="fg" style="grid-template-rows:auto 1fr;gap:30px">
+    <div>
+      <div class="kicker"><span class="kt">設置想定　｜　地域交流センター</span></div>
+      <h2>用事がなくても、<br>立ち寄りたくなる場所へ。</h2>
+    </div>
+    <div style="align-self:end">
+      <p class="lead" style="font-size:28px;max-width:1300px">子育て世代、高齢者、地域企業が日常的に交わる場所だからこそ、参加の入口になります。</p>
+      <div class="cards" style="grid-template-columns:repeat(3,1fr);margin-top:30px">
+        <div class="card"><span class="cap"></span><div class="ct" style="font-size:24px">子育て世代</div>
+          <div class="cb">親子で立ち寄り、遊びながら学ぶ</div></div>
+        <div class="card"><span class="cap"></span><div class="ct" style="font-size:24px">高齢者</div>
+          <div class="cb">日常の立ち寄り先で、まちの今を知る</div></div>
+        <div class="card"><span class="cap"></span><div class="ct" style="font-size:24px">地域企業</div>
+          <div class="cb">まちを応援し、その姿を市民に届ける</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">10 / 13</div>
+</section>
+
+<!-- ══ 11. スケジュール ══ -->
+<section class="slide" data-t="立ち上げの進め方｜Month 1から、体験できる形へ">
+  <div class="fg" style="grid-template-rows:auto auto 1fr auto;gap:26px">
+    <div>
+      <div class="kicker"><span class="kt">立ち上げの進め方　スケジュール案</span></div>
+      <h2>小さく始めて、体験しながら育てる。</h2>
+    </div>
+    <svg viewBox="0 0 1696 90" style="width:100%;height:90px">
+      <path d="M60 45H1636" stroke="#D6E4E7" stroke-width="8" stroke-linecap="round"/>
+      <path d="M60 45H1636" stroke="#FF6366" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 566 566 0"/>
+      <g fill="#FCFAF5" stroke="#FF6366" stroke-width="7">
+        <circle cx="343" cy="45" r="20"/><circle cx="848" cy="45" r="20"/></g>
+      <circle cx="1353" cy="45" r="24" fill="#FF6366"/>
+      <text x="1353" y="24" text-anchor="middle" font-size="21" font-weight="900" fill="#D9484B">GO LIVE</text>
+    </svg>
+    <div class="cards" style="grid-template-columns:repeat(3,1fr);align-content:start">
+      <div class="card"><div class="no">MONTH 1</div>
+        <div class="ct" style="font-size:32px">体験内容・<br>設置条件の確認</div>
+        <div class="cb">どの体験をどこに置くか、電源・通信・設置場所を市と確認する。</div></div>
+      <div class="card"><div class="no">MONTH 2</div>
+        <div class="ct" style="font-size:32px">画面・<br>コンテンツの準備</div>
+        <div class="cb">中間市の写真・動画・カードなど、画面に載せる中身をそろえる。</div></div>
+      <div class="card" style="border:2px solid var(--pink)"><div class="no">MONTH 3</div>
+        <div class="ct" style="font-size:32px">設置・試行・<br>振り返り</div>
+        <div class="cb">実際に置いて使っていただき、反応を見ながら整える。</div></div>
+    </div>
+    <div class="foot"><b>この進め方の狙い</b>　最初から完成させず、実際の反応を見ながら中身を足していきます。市の負担を小さく始められ、使われる形に育てられます。</div>
+  </div>
+  <div class="pageno">11 / 13</div>
+</section>
+
+<!-- ══ 12. 費用 ══ -->
+<section class="slide" data-t="費用｜必要な範囲を、一緒に定めます">
+  <div class="fg" style="grid-template-columns:1fr 1fr;gap:70px;align-content:center">
+    <div style="align-self:center">
+      <div class="kicker"><span class="kt">費用</span></div>
+      <h2>必要な範囲を、<br>一緒に定めます。</h2>
+      <p class="lead">設置環境、必要なコンテンツ、運用の役割分担を確認し、構想に沿った範囲でご提示します。</p>
+    </div>
+    <div style="align-self:center">
+      <div class="big" style="--bs:104px">別途<br>お見積り</div>
+      <div class="cards" style="grid-template-columns:1fr;margin-top:36px">
+        <div class="card"><div class="ct" style="font-size:23px">確認してから、お出しします</div>
+          <div class="cb">・設置場所と台数、電源・通信の条件<br>・用意するコンテンツの範囲<br>・運用を誰が担うかの役割分担</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">12 / 13</div>
+</section>
+
+<!-- ══ 13. 次の一手 ══ -->
+<section class="slide on-dark" data-t="次の一手｜実機デモから始めましょう">
+  <div class="art full"><img src="illust/NAKAMATE/13_closing.png" alt=""></div>
+  <div class="scrim dark-l"></div>
+  <div class="tag">次の一手</div>
+  <div class="fg mid-l">
+    <div class="col-l" style="width:960px">
+      <div class="rule"></div>
+      <div class="kicker"><span class="kt">まちの魅力 × 市民の参加 × 継続的な応援</span></div>
+      <h2 style="font-size:76px">中間市の<br><span style="color:var(--yellow)">「また来たい」を<br>つくる。</span></h2>
+      <div class="card" style="background:rgba(40,34,35,.84);border-color:rgba(255,255,255,.16);margin-top:38px">
+        <div class="ct" style="font-size:28px;color:#fff">次回、実機デモを起点に協議する</div>
+        <div class="cb" style="color:#BDB6B2">「遊ぶ」「描く」を実際に体験いただき、地域交流センターでの最初の体験を一緒に具体化します。</div>
+      </div>
+      <div class="meta" style="margin-top:32px;font-size:21px">
+        <span style="color:#fff;font-weight:700">EXE MATE 株式会社</span>　<span style="color:#FF9A9C">https://exemate.co.jp/</span>
+      </div>
+    </div>
+  </div>
+  <div class="pageno">13 / 13</div>
+</section>
+
+</main>
+
+<nav id="bar">
+  <button id="b-toc">目次</button><button id="b-prev">← 前</button>
+  <span id="cnt">1 / 13</span>
+  <button id="b-next">次 →</button><button id="b-full">全画面</button><button id="b-print">PDFで保存</button><a href="01_NAKAMATE_全体提案_13枚.pdf" download>PDFダウンロード</a>
+</nav>
+<div id="toc"><h4>CONTENTS</h4><ol id="toc-list"></ol></div>
+
+<script>
+/* 検査モード ?p=N */
+(function(){var m=(location.search||'').match(/[?&]p=(\d+)/);if(!m)return;
+  var n=parseInt(m[1],10);
+  [].slice.call(document.querySelectorAll('.slide')).forEach(function(s,i){if(i!==n-1)s.remove()});
+  var st=document.createElement('style');
+  st.textContent='#bar,#toc{display:none!important}body{background:#fff}#deck{padding:0;gap:0}'+
+    '.slide{transform:none!important;margin:0!important;box-shadow:none}';
+  document.head.appendChild(st)})();
+
+(function(){
+  var sl=[].slice.call(document.querySelectorAll('.slide')),cur=0;
+  var cnt=document.getElementById('cnt'),toc=document.getElementById('toc');
+  sl.forEach(function(s,i){s.id='page-'+(i+1)});
+  document.getElementById('toc-list').innerHTML=sl.map(function(s,i){
+    return '<li><a href="#page-'+(i+1)+'"><span class="n">'+String(i+1).padStart(2,'0')+
+      '</span>'+(s.dataset.t||'')+'</a></li>'}).join('');
+  function fit(){var s=Math.min((innerWidth-40)/1920,(innerHeight-116)/1080);
+    document.documentElement.style.setProperty('--s',Math.min(s,1))}
+  function go(i){cur=Math.max(0,Math.min(sl.length-1,i));
+    sl[cur].scrollIntoView({behavior:'smooth',block:'start'});show()}
+  function show(){cnt.textContent=(cur+1)+' / '+sl.length}
+  document.getElementById('b-prev').onclick=function(){go(cur-1)};
+  document.getElementById('b-next').onclick=function(){go(cur+1)};
+  document.getElementById('b-toc').onclick=function(){toc.classList.toggle('on')};
+  document.getElementById('b-print').onclick=function(){window.print()};
+  document.getElementById('b-full').onclick=function(){
+    document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()};
+  toc.onclick=function(e){if(e.target.closest('a')||e.target===toc)toc.classList.remove('on')};
+  addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1)}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1)}
+    if(e.key==='Escape')toc.classList.remove('on')});
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(en.isIntersecting){cur=sl.indexOf(en.target);show()}})},{threshold:.4});
+    sl.forEach(function(s){io.observe(s)})}
+  addEventListener('resize',fit);fit();show();
+})();
+</script>
+</body>
+</html>

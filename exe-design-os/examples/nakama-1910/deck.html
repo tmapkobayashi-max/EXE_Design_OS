@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>なかまの礎1910 未来レンガ｜中間市ご提案｜EXE MATE株式会社</title>
+<style>
+/* ============================================================
+   EXE Design OS — Deck  v2
+   ・レイアウトは全てCSS Grid。絶対配置は使わない（重なり防止）
+   ・絵の中の文字はSVG内の<text>。座標系を統一して衝突を防ぐ
+   ・色は :root のみ。Main = EXE Pink
+   ============================================================ */
+:root{
+  --paper:   #F7F3EC;   /* 地：生成り */
+  --paper2:  #FCFAF5;
+  --ink:     #1E1C1C;   /* Base Black（規定） */
+  --soft:    #5F5A57;
+  --muted:   #A9A29E;
+  --pink:    #FF6366;   /* Main Pink（規定） */
+  --pink-d:  #D9484B;   /* 文字に使える濃さ */
+  --pink-p:  #FFE7E7;   /* 淡い面 */
+  --grey:    #D6E4E7;   /* Sub Grey：現状・課題（規定） */
+  --grey-d:  #7C8F95;
+  --yellow:  #F8E700;
+  --dark:    #201D1E;   /* 濃色ページ */
+  --rule:    rgba(30,28,28,.13);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#33302f;font-family:"Yu Gothic","游ゴシック体",YuGothic,"Hiragino Sans","Meiryo",sans-serif;
+     -webkit-font-smoothing:antialiased}
+#deck{display:flex;flex-direction:column;align-items:center;gap:26px;padding:26px 16px 106px}
+
+/* ---------- スライドの骨格 ---------- */
+.slide{
+  position:relative;width:1920px;height:1080px;flex:none;overflow:hidden;
+  transform:scale(var(--s,.6));transform-origin:top center;
+  margin-bottom:calc((var(--s,.6) - 1) * 1080px);
+  background:var(--paper);color:var(--ink);
+  display:grid;grid-template-rows:auto minmax(0,1fr) auto;
+  padding:82px 104px 72px;gap:38px;
+  box-shadow:0 24px 74px rgba(0,0,0,.44);
+}
+.slide::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;z-index:0;
+  background-image:
+    repeating-linear-gradient(0deg,transparent 0 3px,rgba(30,28,28,.022) 3px 4px),
+    repeating-linear-gradient(90deg,transparent 0 6px,rgba(30,28,28,.014) 6px 7px)}
+.slide>*{position:relative;z-index:2;min-width:0;min-height:0}
+.slide.dark{background:var(--dark);color:#fff}
+.slide.dark::before{opacity:.3;background-image:
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.03) 3px 4px),
+  repeating-linear-gradient(90deg,transparent 0 6px,rgba(255,255,255,.02) 6px 7px)}
+.slide.full{grid-template-rows:1fr;padding:0;gap:0}
+
+/* ---------- 見出し ---------- */
+.kicker{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.kicker .sec{display:grid;place-items:center;width:42px;height:42px;border-radius:9px;
+  background:var(--pink);color:#fff;font:900 22px/1 "Segoe UI",sans-serif}
+.kicker .kt{font-size:22px;font-weight:700;letter-spacing:.06em;color:var(--pink-d)}
+h2{font-size:58px;font-weight:900;line-height:1.2;letter-spacing:-.02em}
+.lead{margin-top:14px;font-size:24px;line-height:1.6;color:var(--soft);max-width:1300px}
+.dark .lead{color:#C9C2BE}
+.dark .kicker .kt{color:#FF9A9C}
+
+/* ---------- 本文レイアウト ---------- */
+.body{display:grid;gap:52px;min-height:0}
+.c2   {grid-template-columns:1fr 1fr}
+.c2l  {grid-template-columns:1.08fr .92fr}
+.c2r  {grid-template-columns:.86fr 1.14fr}
+.r2   {grid-template-rows:minmax(0,1fr) auto;gap:36px}
+.col{display:flex;flex-direction:column;min-width:0;min-height:0}
+.col.mid{justify-content:center}
+.art{min-width:0;min-height:0;display:block}
+.art svg{width:100%;height:100%;display:block}
+/* 全面の背景あしらい（文字の後ろ） */
+.bg-art{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* ---------- 部品 ---------- */
+.card{background:var(--paper2);border:1px solid var(--rule);border-radius:16px;padding:32px 30px;
+  display:flex;flex-direction:column}
+.card .cap{display:block;width:56px;height:6px;border-radius:3px;background:var(--pink);margin-bottom:20px;flex:none}
+.card .ct{font-size:29px;font-weight:900;line-height:1.3}
+.card .cb{margin-top:14px;font-size:21px;line-height:1.7;color:var(--soft)}
+
+.step{background:var(--paper2);border:1px solid var(--rule);border-radius:13px;padding:22px 22px 24px;
+  display:flex;flex-direction:column}
+.step .sn{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;flex:none;
+  background:var(--pink);color:#fff;font:900 22px/1 "Segoe UI",sans-serif;margin-bottom:14px}
+.step .st{font-size:22px;font-weight:800;line-height:1.35}
+.step .sb{margin-top:10px;font-size:18px;line-height:1.6;color:var(--soft)}
+.gsteps{display:grid;gap:20px;min-height:0;align-content:center}
+
+.panel{background:var(--pink-p);border-radius:16px;padding:26px 30px}
+.panel .pt{font-size:22px;font-weight:900}
+.panel .pb{margin-top:10px;font-size:20px;line-height:1.7;color:var(--soft)}
+
+.bullets{list-style:none;display:flex;flex-direction:column;gap:14px;font-size:21px;line-height:1.65;color:var(--soft)}
+.bullets li{display:flex;gap:13px}
+.bullets .d{color:var(--pink);flex:none;font-size:15px;line-height:1.9}
+
+.rich{font-size:21px;line-height:1.75;color:var(--soft);display:flex;flex-direction:column;gap:20px}
+.rich b{color:var(--ink);font-weight:900}
+
+.big{font:900 var(--bs,140px)/.95 "Segoe UI",sans-serif;color:var(--pink);letter-spacing:-.035em}
+.big .u{font-size:.36em;margin-left:.06em;letter-spacing:0}
+
+table.t{border-collapse:collapse;width:100%;table-layout:fixed}
+table.t th{background:var(--ink);color:#fff;font-size:20px;font-weight:700;text-align:left;padding:16px 20px}
+table.t td{padding:15px 20px;font-size:19px;line-height:1.55;color:var(--soft);
+  border-bottom:1px solid var(--rule);vertical-align:top;word-break:break-word}
+table.t tr:nth-child(even) td{background:rgba(214,228,231,.34)}
+table.t td.k{font-weight:800;color:var(--ink)}
+table.t td.n{font:800 21px/1.4 "Segoe UI",sans-serif;color:var(--pink-d);text-align:center}
+table.t td.hi{color:var(--pink-d);font-weight:800}
+
+.foot{font-size:20px;line-height:1.6;color:var(--soft)}
+.foot b{color:var(--pink-d);font-weight:800}
+.dark .foot{color:#BDB6B2}
+.pageno{position:absolute;right:56px;bottom:36px;z-index:5;
+  font:600 21px/1 "Segoe UI",sans-serif;color:var(--muted);letter-spacing:.08em}
+.dark .pageno{color:rgba(255,255,255,.4)}
+
+/* SVG内テキストの共通指定 */
+svg text{font-family:"Yu Gothic","游ゴシック体",YuGothic,"Hiragino Sans","Meiryo",sans-serif}
+
+/* ---------- ビューア ---------- */
+#bar{position:fixed;left:0;right:0;bottom:0;height:58px;z-index:60;display:flex;align-items:center;
+  justify-content:center;gap:10px;background:rgba(24,21,21,.95);backdrop-filter:blur(12px);color:#fff;font-size:14px}
+#bar button{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#fff;
+  padding:9px 18px;border-radius:999px;cursor:pointer;font:inherit}
+#bar button:hover{background:rgba(255,99,102,.22);border-color:rgba(255,99,102,.55)}
+#cnt{font:600 14px/1 "Segoe UI",sans-serif;min-width:72px;text-align:center;color:#d6cfcc}
+#toc{position:fixed;inset:0;z-index:70;background:rgba(20,17,17,.97);color:#fff;padding:54px;overflow:auto;display:none}
+#toc.on{display:block}
+#toc h3{font-size:13px;letter-spacing:.2em;color:var(--pink);margin-bottom:24px}
+#toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:6px}
+#toc a{color:#eae5e2;text-decoration:none;display:flex;gap:16px;padding:12px 16px;border-radius:8px;font-size:16px}
+#toc a:hover{background:rgba(255,99,102,.18)}
+#toc .n{font:700 13px/1.5 "Segoe UI",sans-serif;color:var(--pink);min-width:26px}
+@media print{body{background:#fff}#bar,#toc{display:none!important}#deck{padding:0;gap:0}
+  .slide{transform:none!important;margin:0!important;box-shadow:none;page-break-after:always}
+  @page{size:1920px 1080px;margin:0}}
+</style>
+</head>
+<body>
+<main id="deck">
+
+<!-- ══════════ 1. 表紙 ══════════ -->
+<section class="slide dark full" data-t="表紙｜なかまの礎1910 未来レンガ">
+  <svg viewBox="0 0 1920 1080" style="width:100%;height:100%">
+    <defs>
+      <filter id="G1" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="11" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <radialGradient id="rise1" cx="50%" cy="55%" r="50%">
+        <stop offset="0%" stop-color="#FF6366" stop-opacity=".26"/>
+        <stop offset="60%" stop-color="#FF6366" stop-opacity=".08"/>
+        <stop offset="100%" stop-color="#FF6366" stop-opacity="0"/></radialGradient>
+    </defs>
+    <rect width="1920" height="1080" fill="#201D1E"/>
+    <rect width="1920" height="8" fill="#FF6366"/>
+
+    <!-- 右：ポンプ室 -->
+    <ellipse cx="1440" cy="540" rx="440" ry="440" fill="url(#rise1)"/>
+    <g transform="translate(1250,392) scale(.62)">
+      <g stroke="#6B5A5A" stroke-width="4" fill="none" stroke-linejoin="round">
+        <path d="M0 400 L230 286 L540 452 L310 578 Z" fill="#2E2829"/>
+        <path d="M0 400 L0 664 L310 842 L310 578 Z" fill="#282223"/>
+        <path d="M540 452 L540 716 L310 842 L310 578 Z" fill="#221D1E"/>
+        <path d="M58 368 L230 286 L402 378"/>
+        <g stroke="#8A7273">
+          <path d="M54 496 q0 -32 28 -32 q28 0 28 32 l0 58 l-56 0 Z"/>
+          <path d="M140 546 q0 -32 28 -32 q28 0 28 32 l0 58 l-56 0 Z"/>
+          <path d="M226 596 q0 -32 28 -32 q28 0 28 32 l0 58 l-56 0 Z"/>
+          <path d="M386 536 q0 -30 26 -30 q26 0 26 30 l0 54 l-52 0 Z"/>
+          <path d="M460 578 q0 -30 26 -30 q26 0 26 30 l0 54 l-52 0 Z"/>
+        </g>
+        <path d="M400 238 L442 214 L442 56 L400 80 Z" fill="#2E2829"/>
+      </g>
+    </g>
+    <g fill="#FF8E90" filter="url(#G1)">
+      <circle cx="1330" cy="440" r="5" opacity=".9"/><circle cx="1408" cy="360" r="4" opacity=".8"/>
+      <circle cx="1490" cy="286" r="6" opacity=".95"/><circle cx="1370" cy="252" r="3.5" opacity=".7"/>
+      <circle cx="1566" cy="212" r="4.5" opacity=".85"/><circle cx="1660" cy="312" r="4" opacity=".7"/>
+      <circle cx="1448" cy="170" r="5" opacity=".8"/><circle cx="1600" cy="118" r="3.5" opacity=".6"/>
+    </g>
+    <!-- 見上げる人 -->
+    <g transform="translate(1178,868)" fill="#0C0809">
+      <circle cx="0" cy="-72" r="14"/>
+      <path d="M-16 -55 q16 -10 32 0 l8 66 l-15 0 l-5 -36 l-5 36 l-15 0 l-8 -66 Z"/>
+      <path d="M-11 18 l5 58 l9 0 l1 -58 Z"/><path d="M11 18 l-3 58 l9 0 l4 -58 Z"/>
+    </g>
+    <path d="M1080 894 L1920 894" stroke="#3A3132" stroke-width="2"/>
+
+    <!-- 左：文字（SVG内に置いて重なりを封じる） -->
+    <text x="104" y="150" fill="#FF9A9C" font-size="23" font-weight="700" letter-spacing="1.4">EXE MATE 株式会社　｜　中間市 ご提案</text>
+    <text x="104" y="352" fill="#FFFFFF" font-size="106" font-weight="900" letter-spacing="-3">なかまの礎1910</text>
+    <text x="104" y="472" fill="#F8E700" font-size="106" font-weight="900" letter-spacing="-3">未来レンガ</text>
+    <text x="104" y="556" fill="#C9BFBC" font-size="29">デジタル中間市（メタバース）× バーチャル・ドナー・ウォール構想</text>
+    <text x="104" y="612" fill="#9A8F8C" font-size="23">― 中間市の「応援・寄付」を、デジタルの壁に刻んで“見える化”する ―</text>
+
+    <g transform="translate(104,700)">
+      <rect width="880" height="222" rx="16" fill="#2A2526" stroke="#4A3E3F"/>
+      <rect width="6" height="222" rx="3" fill="#FF6366"/>
+      <text x="38" y="60" fill="#F8E700" font-size="23" font-weight="800">予算前提</text>
+      <text x="142" y="64" fill="#FFFFFF" font-size="36" font-weight="900">2,000万円を厳守</text>
+      <text x="38" y="120" fill="#BEB4B1" font-size="21">初期は世界遺産「遠賀川水源地ポンプ室」に一点集中。</text>
+      <text x="38" y="156" fill="#BEB4B1" font-size="21">全体提案『NAKAMATE!（知る・遊ぶ・描く・伝える・応援する）』の</text>
+      <text x="38" y="192" fill="#BEB4B1" font-size="21">「応援する」を担う中核機能。</text>
+    </g>
+  </svg>
+  <div class="pageno">01 / 15</div>
+</section>
+
+<!-- ══════════ 2. 全体像と本日の構成 ══════════ -->
+<section class="slide" data-t="全体像と、本日の構成">
+  <header>
+    <div class="kicker"><span class="kt">はじめに</span></div>
+    <h2>全体像と、本日の構成</h2>
+    <p class="lead">『NAKAMATE!』の中核「応援する」＝未来レンガ</p>
+  </header>
+  <div class="body c2l">
+    <div class="col">
+      <div class="card" style="flex:1">
+        <span class="cap"></span>
+        <div class="ct">この提案の位置づけ</div>
+        <div class="cb">寄付してくれた市民・企業の名前を、世界遺産ポンプ室を再現したデジタルの壁（レンガ）に刻み、80インチの大画面とスマホから“いつでも会いに行ける”体験にします。</div>
+        <div style="margin-top:24px;font-size:21px;font-weight:900;color:var(--pink-d)">予算前提</div>
+        <div class="cb" style="margin-top:6px">中間市への提供価格 2,000万円は『NAKAMATE!』一式の導入価格。本レンガ機能もこの中に含まれます。</div>
+        <div style="margin-top:20px;font-size:21px;font-weight:900;color:var(--pink-d)">『NAKAMATE!』の5機能</div>
+        <div class="cb" style="margin-top:6px">知る・遊ぶ・描く・伝える・応援する（本資料は「応援する」）</div>
+      </div>
+    </div>
+    <div class="col">
+      <div style="font-size:26px;font-weight:900;margin-bottom:20px">本日の構成（全10章）</div>
+      <ol id="agenda" style="list-style:none;display:flex;flex-direction:column;gap:13px;font-size:20px"></ol>
+    </div>
+  </div>
+  <footer class="foot"></footer>
+  <div class="pageno">02 / 15</div>
+</section>
+
+<!-- ══════════ 3. ひと言でいうと ══════════ -->
+<section class="slide" data-t="1｜この提案は、ひと言でいうと？">
+  <header>
+    <div class="kicker"><span class="sec">1</span><span class="kt">まず全体像をつかむ</span></div>
+    <h2>この提案は、ひと言でいうと？</h2>
+    <p class="lead">寄付してくれた市民・企業の名前を、世界遺産「遠賀川水源地ポンプ室」を再現したデジタルの壁に刻み、<b style="color:var(--ink)">大画面とスマホから“いつでも会いに行ける”体験</b>にします。</p>
+  </header>
+  <div class="body r2">
+    <div class="art">
+      <svg viewBox="0 0 1712 300" preserveAspectRatio="xMidYMid meet">
+        <defs><filter id="G3" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="7" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <!-- 左：広場の大画面 -->
+        <g transform="translate(250,150)" stroke="#8A8280" stroke-width="2.4" fill="none">
+          <rect x="-92" y="-96" width="184" height="112" rx="6" fill="#EFEAE1"/>
+          <path d="M-12 16 l0 30 l-28 20 l80 0 l-28 -20 l0 -30"/>
+          <g fill="#8A8280" stroke="none" opacity=".6">
+            <circle cx="-64" cy="80" r="9"/><rect x="-72" y="90" width="16" height="32" rx="6"/>
+            <circle cx="-28" cy="86" r="8"/><rect x="-35" y="95" width="14" height="27" rx="5"/>
+            <circle cx="44" cy="82" r="9"/><rect x="36" y="92" width="16" height="30" rx="6"/></g>
+        </g>
+        <!-- 中：レンガの建物 -->
+        <g transform="translate(856,138)" stroke="#8A8280" stroke-width="2.4" fill="none">
+          <path d="M-86 40 L0 -16 L94 44 L8 100 Z" fill="#EFEAE1"/>
+          <path d="M-86 40 L-86 112 L8 170 L8 100 Z" fill="#E5DED3"/>
+          <path d="M94 44 L94 116 L8 170 L8 100 Z" fill="#DAD2C7"/>
+          <path d="M-50 12 L0 -16 L50 14"/>
+        </g>
+        <g fill="#FF8E90" filter="url(#G3)">
+          <circle cx="820" cy="72" r="4"/><circle cx="898" cy="42" r="5"/><circle cx="954" cy="86" r="3.5"/>
+          <circle cx="856" cy="14" r="4"/></g>
+        <!-- 右：積み上がる壁 -->
+        <g transform="translate(1440,150)" stroke="#8A8280" stroke-width="2" fill="#EFEAE1">
+          <rect x="-138" y="70" width="84" height="32"/><rect x="-48" y="70" width="84" height="32"/>
+          <rect x="42" y="70" width="84" height="32"/>
+          <rect x="-93" y="34" width="84" height="32"/><rect x="-3" y="34" width="84" height="32"/>
+          <rect x="87" y="34" width="84" height="32"/>
+          <rect x="-138" y="-2" width="84" height="32"/><rect x="-48" y="-2" width="84" height="32"/>
+          <rect x="42" y="-2" width="84" height="32" fill="#FFCFD0"/>
+          <rect x="-93" y="-38" width="84" height="32"/><rect x="-3" y="-38" width="84" height="32" fill="#FFCFD0"/>
+        </g>
+        <g fill="#FF8E90" filter="url(#G3)" opacity=".85">
+          <circle cx="1470" cy="76" r="4"/><circle cx="1380" cy="60" r="3.5"/><circle cx="1540" cy="42" r="4.5"/></g>
+        <!-- つなぐ線 -->
+        <path d="M370 176 C 520 210, 620 176, 754 160" stroke="#FF6366" stroke-width="5"
+              stroke-linecap="round" fill="none" filter="url(#G3)" opacity=".9"/>
+        <path d="M960 160 C 1090 142, 1180 176, 1290 172" stroke="#FF6366" stroke-width="5"
+              stroke-linecap="round" fill="none" filter="url(#G3)" opacity=".9"/>
+      </svg>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px">
+      <div class="card"><span class="cap"></span><div class="ct">① 見える化</div>
+        <div class="cb">市民・企業の「応援したい」を街の画面に映し、まちづくりへの参加を実感できる。</div></div>
+      <div class="card"><span class="cap"></span><div class="ct">② 文化を未来へ</div>
+        <div class="cb">世界遺産ポンプ室をデジタルで保存し、歴史・観光・教育に活かす。</div></div>
+      <div class="card"><span class="cap"></span><div class="ct">③ 続く仕組み</div>
+        <div class="cb">デジタルなら壁は無限。寄付＝レンガが積み上がり、財源が継続的に育つ。</div></div>
+    </div>
+  </div>
+  <footer class="foot"></footer>
+  <div class="pageno">03 / 15</div>
+</section>
+
+<!-- ══════════ 4. 体験の4ステップ ══════════ -->
+<section class="slide" data-t="2｜使う人は、何をする？（体験の4ステップ）">
+  <header>
+    <div class="kicker"><span class="sec">2</span><span class="kt">市民・企業から見た流れ</span></div>
+    <h2>使う人は、何をする？（体験の4ステップ）</h2>
+  </header>
+  <div class="body r2">
+    <div class="art">
+      <svg viewBox="0 0 1712 250" preserveAspectRatio="xMidYMid meet">
+        <defs><filter id="G4" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="7" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path d="M214 125 L1498 125" stroke="#FF6366" stroke-width="4" opacity=".45" filter="url(#G4)"/>
+        <path d="M214 125 L1498 125" stroke="#E0D8D2" stroke-width="2.5" stroke-dasharray="2 13" stroke-linecap="round"/>
+        <g stroke="#8A8280" stroke-width="2.6" fill="none" stroke-linejoin="round">
+          <!-- 1 スマホでQR -->
+          <g transform="translate(214,125)">
+            <rect x="-32" y="-58" width="64" height="116" rx="11" fill="#F3EDE4"/>
+            <rect x="-19" y="-42" width="38" height="38" rx="4"/>
+            <path d="M-13 -36 h10 v10 h-10 Z M3 -36 h10 v10 h-10 Z M-13 -20 h10 v10 h-10 Z" fill="#8A8280" stroke="none"/>
+            <circle cx="0" cy="38" r="6"/></g>
+          <!-- 2 レンガ1個が生まれる -->
+          <g transform="translate(642,125)">
+            <rect x="-54" y="-24" width="108" height="48" rx="4" fill="#FFCFD0" stroke="#D9484B"/>
+            <g stroke="#FF6366" stroke-width="3" stroke-linecap="round">
+              <path d="M-62 -36 l-14 -16"/><path d="M0 -34 l0 -22"/><path d="M62 -36 l14 -16"/></g></g>
+          <!-- 3 壁にはまる -->
+          <g transform="translate(1070,125)">
+            <rect x="-90" y="-42" width="56" height="26" fill="#EFEAE1"/><rect x="-30" y="-42" width="56" height="26" fill="#EFEAE1"/>
+            <rect x="30" y="-42" width="56" height="26" fill="#EFEAE1"/>
+            <rect x="-60" y="-12" width="56" height="26" fill="#FFCFD0" stroke="#D9484B"/>
+            <rect x="0" y="-12" width="56" height="26" fill="#EFEAE1"/>
+            <rect x="-90" y="18" width="56" height="26" fill="#EFEAE1"/><rect x="-30" y="18" width="56" height="26" fill="#EFEAE1"/>
+            <rect x="30" y="18" width="56" height="26" fill="#EFEAE1"/></g>
+          <!-- 4 記念動画 -->
+          <g transform="translate(1498,125)">
+            <rect x="-62" y="-42" width="124" height="84" rx="9" fill="#F3EDE4"/>
+            <path d="M-14 -18 L22 0 L-14 18 Z" fill="#FF6366" stroke="none"/></g>
+        </g>
+      </svg>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <div class="step"><div class="sn">1</div><div class="st">その場で寄付する</div>
+        <div class="sb">大画面のQRを読み取り、スマホで¥500〜を即時決済（投げ銭）。</div></div>
+      <div class="step"><div class="sn">2</div><div class="st">名前がレンガに刻まれる</div>
+        <div class="sb">寄付額に応じて名入りデジタルレンガが生成。企業はロゴ入り銘板も。</div></div>
+      <div class="step"><div class="sn">3</div><div class="st">大画面の壁に表示される</div>
+        <div class="sb">80インチのポンプ室の壁に並び、支援者が増えるほど壁が拡張。</div></div>
+      <div class="step"><div class="sn">4</div><div class="st">記念の15秒動画ができる</div>
+        <div class="sb">名前がズームアップされるSNS用の記念動画が自動生成、シェア可。</div></div>
+    </div>
+  </div>
+  <footer class="foot">
+    <b>決めごと</b>　市民はその場で即時決済（Stripe／カード・Apple Pay・Google Pay）。完了後、確認メールと“自分のレンガの専用URL”が届く。企業は申込→審査→入金後に掲載（通常3営業日以内）。個人のふるさと納税やログイン登録は今回は扱わない。
+  </footer>
+  <div class="pageno">04 / 15</div>
+</section>
+
+<!-- ══════════ 5. 個人フロー ══════════ -->
+<section class="slide" data-t="2｜申込フロー ①個人（市民）">
+  <header>
+    <div class="kicker"><span class="sec">2</span><span class="kt">全8ステップ</span></div>
+    <h2>申込フロー ①　個人（市民）＝その場で即時決済</h2>
+  </header>
+  <div class="body">
+    <div class="gsteps" id="flowA" style="grid-template-columns:repeat(4,1fr)"></div>
+  </div>
+  <footer><div class="panel"><div class="pt">決済はStripe（カード・Apple Pay・Google Pay）</div>
+    <div class="pb">即時決済で、完了後に確認メールと“自分のレンガの専用URL”が届く。個人はログイン登録不要。</div></div></footer>
+  <div class="pageno">05 / 15</div>
+</section>
+
+<!-- ══════════ 6. 企業フロー ══════════ -->
+<section class="slide" data-t="2｜申込フロー ②企業">
+  <header>
+    <div class="kicker"><span class="sec">2</span><span class="kt">全9ステップ（後日掲載）</span></div>
+    <h2>申込フロー ②　企業＝申込 → 審査 → 掲載</h2>
+  </header>
+  <div class="body">
+    <div class="gsteps" id="flowB" style="grid-template-columns:repeat(3,1fr)"></div>
+  </div>
+  <footer class="foot">
+    <b>決めごと</b>　申込→審査→入金後に掲載（後日）。掲載可否は市が最終判断。税制優遇はうたわず、企業支援は広告として扱う。
+  </footer>
+  <div class="pageno">06 / 15</div>
+</section>
+
+<!-- ══════════ 7. 画面ではどう見える ══════════ -->
+<section class="slide" data-t="3｜画面では、どう見える？（映像と操作）">
+  <header>
+    <div class="kicker"><span class="sec">3</span><span class="kt">映像と操作</span></div>
+    <h2>画面では、どう見える？</h2>
+    <p class="lead">読み込みを挟まず、俯瞰から自分のレンガまで一続きの映像で移動します。</p>
+  </header>
+  <div class="body">
+    <div class="art">
+      <svg viewBox="0 0 1712 620" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <filter id="G7" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="8" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <clipPath id="C7a"><rect width="380" height="300" rx="12"/></clipPath>
+        </defs>
+        <!-- 見出し行（パネルの外・上） -->
+        <g>
+          <g transform="translate(0,0)"><circle cx="24" cy="24" r="24" fill="#FF6366"/>
+            <text x="24" y="33" font-size="25" font-weight="900" fill="#fff" text-anchor="middle">1</text>
+            <text x="62" y="34" font-size="28" font-weight="900" fill="#1E1C1C">鳥瞰</text>
+            <text x="0" y="76" font-size="20" fill="#5F5A57">上空から見渡す</text></g>
+          <g transform="translate(444,0)"><circle cx="24" cy="24" r="24" fill="#FF6366"/>
+            <text x="24" y="33" font-size="25" font-weight="900" fill="#fff" text-anchor="middle">2</text>
+            <text x="62" y="34" font-size="28" font-weight="900" fill="#1E1C1C">飛翔</text>
+            <text x="0" y="76" font-size="20" fill="#5F5A57">手をかざして近づく</text></g>
+          <g transform="translate(888,0)"><circle cx="24" cy="24" r="24" fill="#FF6366"/>
+            <text x="24" y="33" font-size="25" font-weight="900" fill="#fff" text-anchor="middle">3</text>
+            <text x="62" y="34" font-size="28" font-weight="900" fill="#1E1C1C">接近</text>
+            <text x="0" y="76" font-size="20" fill="#5F5A57">壁面へ寄っていく</text></g>
+          <g transform="translate(1332,0)"><circle cx="24" cy="24" r="24" fill="#FF6366"/>
+            <text x="24" y="33" font-size="25" font-weight="900" fill="#fff" text-anchor="middle">4</text>
+            <text x="62" y="34" font-size="28" font-weight="900" fill="#1E1C1C">ズーム</text>
+            <text x="0" y="76" font-size="20" fill="#5F5A57">自分のレンガへ</text></g>
+        </g>
+
+        <!-- 映像パネル 380×300 / gap 64 -->
+        <!-- ① 鳥瞰 -->
+        <g transform="translate(0,110)">
+          <rect width="380" height="300" rx="12" fill="#EFEAE1" stroke="#C9C0B8" stroke-width="2"/>
+          <g transform="translate(190,168) scale(.82)" stroke="#8A8280" stroke-width="2.4" fill="none" stroke-linejoin="round">
+            <path d="M-150 56 L0 -30 L160 62 L10 148 Z" fill="#E3DCD1" opacity=".6"/>
+            <path d="M-46 30 L16 -6 L82 32 L20 68 Z" fill="#F6F1E8"/>
+            <path d="M-46 30 L-46 66 L20 104 L20 68 Z" fill="#E8E1D6"/>
+            <path d="M82 32 L82 68 L20 104 L20 68 Z" fill="#DCD5C9"/>
+            <path d="M-16 12 L16 -6 L48 14"/>
+            <circle cx="-102" cy="72" r="11" opacity=".5"/><circle cx="126" cy="80" r="10" opacity=".5"/>
+          </g>
+        </g>
+        <!-- ② 飛翔 -->
+        <g transform="translate(444,110)">
+          <rect width="380" height="300" rx="12" fill="#EFEAE1" stroke="#C9C0B8" stroke-width="2"/>
+          <g transform="translate(190,182) scale(1.5)" stroke="#8A8280" stroke-width="1.9" fill="none" stroke-linejoin="round">
+            <path d="M-62 20 L4 -20 L78 24 L12 66 Z" fill="#F6F1E8"/>
+            <path d="M-62 20 L-62 58 L12 102 L12 66 Z" fill="#E8E1D6"/>
+            <path d="M78 24 L78 62 L12 102 L12 66 Z" fill="#DCD5C9"/>
+            <path d="M-30 2 L4 -20 L38 2"/>
+            <path d="M50 2 L62 -4 L62 -36 L50 -30 Z" fill="#F0EAE0"/>
+          </g>
+        </g>
+        <!-- ③ 接近 -->
+        <g transform="translate(888,110)">
+          <rect width="380" height="300" rx="12" fill="#2A2526" stroke="#4A3E3F" stroke-width="2"/>
+          <g stroke="#5C4F50" stroke-width="1.6" clip-path="url(#C7a)">
+            <rect x="18" y="52" width="112" height="44" fill="#37302F"/><rect x="136" y="52" width="112" height="44" fill="#332C2C"/>
+            <rect x="254" y="52" width="112" height="44" fill="#37302F"/>
+            <rect x="-41" y="102" width="112" height="44" fill="#332C2C"/><rect x="77" y="102" width="112" height="44" fill="#37302F"/>
+            <rect x="195" y="102" width="112" height="44" fill="#332C2C"/><rect x="313" y="102" width="112" height="44" fill="#37302F"/>
+            <rect x="18" y="152" width="112" height="44" fill="#332C2C"/><rect x="136" y="152" width="112" height="44" fill="#37302F"/>
+            <rect x="254" y="152" width="112" height="44" fill="#332C2C"/>
+            <rect x="-41" y="202" width="112" height="44" fill="#37302F"/><rect x="77" y="202" width="112" height="44" fill="#332C2C"/>
+            <rect x="195" y="202" width="112" height="44" fill="#37302F"/><rect x="313" y="202" width="112" height="44" fill="#332C2C"/>
+          </g>
+        </g>
+        <!-- ④ ズーム -->
+        <g transform="translate(1332,110)">
+          <rect width="380" height="300" rx="12" fill="#2A2526" stroke="#4A3E3F" stroke-width="2"/>
+          <g stroke="#5C4F50" stroke-width="1.6" opacity=".5" clip-path="url(#C7a)">
+            <rect x="6" y="52" width="150" height="60" fill="#37302F"/><rect x="224" y="52" width="150" height="60" fill="#332C2C"/>
+            <rect x="6" y="188" width="150" height="60" fill="#332C2C"/><rect x="224" y="188" width="150" height="60" fill="#37302F"/>
+          </g>
+          <rect x="115" y="120" width="150" height="60" rx="4" fill="#FF6366" opacity=".3"/>
+          <rect x="115" y="120" width="150" height="60" rx="4" fill="none" stroke="#FF9A9C" stroke-width="3" filter="url(#G7)"/>
+          <g stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity=".9"><path d="M140 150 h100"/></g>
+          <g stroke="#FFBDBE" stroke-width="2.4" stroke-linecap="round">
+            <path d="M282 116 l18 -18"/><path d="M288 150 l24 0"/><path d="M280 184 l17 17"/></g>
+        </g>
+
+        <!-- 矢印（パネルの隙間の中央） -->
+        <g stroke="#FF6366" stroke-width="5" stroke-linecap="round" fill="none">
+          <path d="M394 260 h22"/><path d="M838 260 h22"/><path d="M1282 260 h22"/></g>
+        <g fill="#FF6366">
+          <path d="M418 250 l16 10 l-16 10 Z"/><path d="M862 250 l16 10 l-16 10 Z"/><path d="M1306 250 l16 10 l-16 10 Z"/></g>
+
+        <text x="0" y="480" font-size="22" fill="#8B8380">読み込み画面を挟まず、1から4まで映像が途切れずつながって動きます。</text>
+      </svg>
+    </div>
+  </div>
+  <footer class="foot">
+    <b>うれしい機能</b>　大画面で名前を検索すると、レーダーのように自分のレンガが光ってすぐ見つかる。ログイン・登録は不要で誰でもすぐ使える。
+  </footer>
+  <div class="pageno">07 / 15</div>
+</section>
+
+<!-- ══════════ 8. 未来レンガ ══════════ -->
+<section class="slide" data-t="4｜中核の仕組み ―「未来レンガ」">
+  <header>
+    <div class="kicker"><span class="sec">4</span><span class="kt">無限に積み上がる、デジタルの寄付の壁</span></div>
+    <h2>中核の仕組み ―「未来レンガ」</h2>
+  </header>
+  <div class="body c2r">
+    <div class="col">
+      <div class="rich" style="flex:1">
+        <p><b>機能概要</b><br>寄付額に応じて、デジタルツインのポンプ室壁面に名入りのレンガが配置される。</p>
+        <p><b>無限の財源</b><br>物理的な壁と違いスペースの限界がなく、支援者が増えるほど壁が拡張。財源を無限に積み上げられる。</p>
+        <p><b>記念のリターン</b><br>永続的な掲載／特別な輝きのエフェクト／SNS用15秒動画の自動生成。</p>
+      </div>
+      <div class="panel" style="margin-top:20px">
+        <div class="pt">決めごと（ハイライト方式）</div>
+        <div class="pb">寄付した名前は消えず常設アーカイブに永続掲載。手前・大きく・光る“特等席”などの目立つ表示だけをプランごとの期間制（例：90日）にし、続けたい人は再寄付で再ハイライト。</div>
+      </div>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 1010 620" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <filter id="G8" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="7" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <clipPath id="W8"><rect x="10" y="76" width="760" height="404" rx="8"/></clipPath>
+        </defs>
+        <!-- 壁の枠（＝図であることを明示） -->
+        <rect x="10" y="76" width="760" height="404" rx="8" fill="#FAF7F1" stroke="#C9C0B8" stroke-width="2"/>
+        <text x="10" y="56" font-size="22" font-weight="900" fill="#1E1C1C">ポンプ室の壁（デジタル）</text>
+
+        <!-- レンガ -->
+        <g stroke="#C9C0B8" stroke-width="1.5" clip-path="url(#W8)">
+          <g fill="#EFEAE1">
+            <rect x="26"  y="96"  width="136" height="46" rx="3"/><rect x="170" y="96"  width="136" height="46" rx="3"/>
+            <rect x="314" y="96"  width="136" height="46" rx="3"/><rect x="458" y="96"  width="136" height="46" rx="3"/>
+            <rect x="602" y="96"  width="136" height="46" rx="3"/>
+            <rect x="-46" y="150" width="136" height="46" rx="3"/><rect x="98"  y="150" width="136" height="46" rx="3"/>
+            <rect x="242" y="150" width="136" height="46" rx="3"/><rect x="386" y="150" width="136" height="46" rx="3"/>
+            <rect x="530" y="150" width="136" height="46" rx="3"/><rect x="674" y="150" width="136" height="46" rx="3"/>
+            <rect x="26"  y="204" width="136" height="46" rx="3"/>
+            <rect x="314" y="204" width="136" height="46" rx="3"/><rect x="458" y="204" width="136" height="46" rx="3"/>
+            <rect x="602" y="204" width="136" height="46" rx="3"/>
+            <rect x="-46" y="258" width="136" height="46" rx="3"/><rect x="98"  y="258" width="136" height="46" rx="3"/>
+            <rect x="242" y="258" width="136" height="46" rx="3"/><rect x="386" y="258" width="136" height="46" rx="3"/>
+            <rect x="530" y="258" width="136" height="46" rx="3"/><rect x="674" y="258" width="136" height="46" rx="3"/>
+            <rect x="26"  y="312" width="136" height="46" rx="3"/><rect x="170" y="312" width="136" height="46" rx="3"/>
+            <rect x="314" y="312" width="136" height="46" rx="3"/><rect x="458" y="312" width="136" height="46" rx="3"/>
+            <rect x="602" y="312" width="136" height="46" rx="3"/>
+            <rect x="-46" y="366" width="136" height="46" rx="3"/><rect x="98"  y="366" width="136" height="46" rx="3"/>
+            <rect x="242" y="366" width="136" height="46" rx="3"/><rect x="386" y="366" width="136" height="46" rx="3"/>
+            <rect x="530" y="366" width="136" height="46" rx="3"/><rect x="674" y="366" width="136" height="46" rx="3"/>
+            <rect x="26"  y="420" width="136" height="46" rx="3"/><rect x="170" y="420" width="136" height="46" rx="3"/>
+            <rect x="314" y="420" width="136" height="46" rx="3"/><rect x="458" y="420" width="136" height="46" rx="3"/>
+            <rect x="602" y="420" width="136" height="46" rx="3"/>
+          </g>
+          <!-- 名入りレンガ（グレー＝一般） -->
+          <g fill="#D6E4E7">
+            <rect x="98"  y="150" width="136" height="46" rx="3"/>
+            <rect x="458" y="204" width="136" height="46" rx="3"/>
+            <rect x="242" y="366" width="136" height="46" rx="3"/>
+            <rect x="602" y="312" width="136" height="46" rx="3"/>
+          </g>
+          <!-- 特等席（ピンク＝ハイライト） -->
+          <rect x="170" y="204" width="136" height="46" rx="3" fill="#FF6366" stroke="#D9484B"/>
+        </g>
+        <!-- 名前の線（文字は書かず、線で表現） -->
+        <g stroke="#9FB4B9" stroke-width="3" stroke-linecap="round" clip-path="url(#W8)">
+          <path d="M118 173 h60"/><path d="M478 227 h72"/><path d="M262 389 h56"/><path d="M622 335 h66"/>
+        </g>
+        <g stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"><path d="M192 227 h78"/></g>
+        <g filter="url(#G8)"><rect x="170" y="204" width="136" height="46" rx="3" fill="none"
+              stroke="#FF9A9C" stroke-width="3"/></g>
+
+        <!-- 右へ無限に続く -->
+        <g stroke="#D9484B" stroke-width="3" fill="none" stroke-linecap="round">
+          <path d="M790 278 h150"/><path d="M926 264 l18 14 l-18 14"/></g>
+        <text x="790" y="252" font-size="20" font-weight="800" fill="#D9484B">無限に拡張</text>
+        <text x="790" y="322" font-size="18" fill="#8B8380">支援者が増えるほど</text>
+        <text x="790" y="348" font-size="18" fill="#8B8380">壁が伸びていく</text>
+
+        <!-- 凡例 -->
+        <g transform="translate(10,510)">
+          <rect x="0" y="0" width="34" height="18" rx="2" fill="#FF6366" stroke="#D9484B"/>
+          <text x="46" y="15" font-size="19" fill="#1E1C1C" font-weight="700">特等席（期間制のハイライト）</text>
+          <rect x="0" y="34" width="34" height="18" rx="2" fill="#D6E4E7" stroke="#9FB4B9"/>
+          <text x="46" y="49" font-size="19" fill="#5F5A57">名入りレンガ（永続掲載）</text>
+          <rect x="0" y="68" width="34" height="18" rx="2" fill="#EFEAE1" stroke="#C9C0B8"/>
+          <text x="46" y="83" font-size="19" fill="#5F5A57">これから積まれる場所</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <footer class="foot"></footer>
+  <div class="pageno">08 / 15</div>
+</section>
+
+<!-- ══════════ 9. 応援プラン ══════════ -->
+<section class="slide" data-t="5｜応援プラン（サポーター制度）">
+  <header>
+    <div class="kicker"><span class="sec">5</span><span class="kt">市民・個人と、企業・団体の2区分</span></div>
+    <h2>応援プラン（サポーター制度）</h2>
+    <p class="lead">金額はダミー、特典は仮（今後調整）</p>
+  </header>
+  <div class="body">
+    <table class="t">
+      <tr><th style="width:150px">区分</th><th style="width:270px">プラン</th><th>内容</th><th style="width:330px">特徴</th></tr>
+      <tr><td class="k">市民・個人</td><td>投げ銭<br>¥500／¥1,000／¥5,000・任意</td>
+          <td>名前（ニックネーム可）・メッセージ30字・レンガの色4色・アイコン</td>
+          <td>完了後に記念15秒動画と専用URL。SNSでシェア可</td></tr>
+      <tr><td class="k">企業・団体</td><td>ブロンズ　¥100,000〜</td><td>Webサイトへロゴ掲載</td><td>手軽に応援・PR</td></tr>
+      <tr><td class="k">企業・団体</td><td>シルバー　¥300,000〜</td><td>ロゴ掲載＋メタバースに銘板掲出</td><td>空間内に企業名を掲示</td></tr>
+      <tr><td class="k">企業・団体</td><td>ゴールド　¥1,000,000〜</td><td>銘板＋15秒CM放映</td><td>大画面で自社紹介・感謝メッセージ</td></tr>
+      <tr><td class="k">企業・団体</td><td class="hi">プラチナ　¥3,000,000〜</td>
+          <td>フルパッケージ（特等席・冠・EC連動 等）</td><td>特等席・市長対談動画・EC送客まで</td></tr>
+    </table>
+  </div>
+  <footer class="foot" style="color:var(--muted)">
+    Tier1＝市民・個人（体験価値の提供）／Tier2＝企業・団体（広告出稿による社会貢献の可視化・ブランディング。今回は広告に一本化）。
+  </footer>
+  <div class="pageno">09 / 15</div>
+</section>
+
+<!-- ══════════ 10. 2つの柱 ══════════ -->
+<section class="slide" data-t="6｜なぜ続くのか（収入の2つの柱）">
+  <header>
+    <div class="kicker"><span class="sec">6</span><span class="kt">建物の「2階建て」にたとえた自走モデル</span></div>
+    <h2>なぜ続くのか（収入の“2つの柱”）</h2>
+  </header>
+  <div class="body c2">
+    <div class="art">
+      <svg viewBox="0 0 820 600" preserveAspectRatio="xMidYMid meet">
+        <defs><filter id="G10" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="7" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+
+        <!-- 2階 -->
+        <rect x="60" y="40" width="700" height="200" rx="12" fill="#FF6366"/>
+        <text x="96" y="96" font-size="30" font-weight="900" fill="#fff">2階　広告</text>
+        <text x="96" y="132" font-size="21" fill="#FFE0E1">企業・スポンサーが払う。CM動画やロゴを</text>
+        <text x="96" y="162" font-size="21" fill="#FFE0E1">空間に載せる有料広告枠。</text>
+        <text x="96" y="204" font-size="20" font-weight="800" fill="#FFF3B0">継続して入る収入</text>
+        <g fill="rgba(255,255,255,.22)">
+          <rect x="560" y="112" width="42" height="106"/><rect x="612" y="140" width="36" height="78"/>
+          <rect x="658" y="94" width="48" height="124"/><rect x="716" y="132" width="32" height="86"/></g>
+
+        <!-- 床 -->
+        <rect x="40" y="240" width="740" height="14" rx="4" fill="#1E1C1C"/>
+
+        <!-- 1階 -->
+        <rect x="60" y="254" width="700" height="230" rx="12" fill="#D6E4E7"/>
+        <text x="96" y="312" font-size="30" font-weight="900" fill="#1E1C1C">1階（土台）　寄付</text>
+        <text x="96" y="350" font-size="21" fill="#4E5F64">市民が払う。デジタルレンガの販売代金＝</text>
+        <text x="96" y="380" font-size="21" fill="#4E5F64">投げ銭（控除なし）。</text>
+        <text x="96" y="422" font-size="20" font-weight="800" fill="#3D6B78">まちの安定財源</text>
+        <g fill="#8FA9B0">
+          <g><circle cx="576" cy="396" r="12"/><rect x="565" y="410" width="22" height="52" rx="8"/></g>
+          <g><circle cx="622" cy="404" r="11"/><rect x="612" y="417" width="20" height="45" rx="7"/></g>
+          <g><circle cx="666" cy="394" r="12"/><rect x="655" y="408" width="22" height="54" rx="8"/></g>
+          <g><circle cx="712" cy="404" r="11"/><rect x="702" y="417" width="20" height="45" rx="7"/></g></g>
+
+        <!-- 基礎 -->
+        <rect x="30" y="484" width="760" height="22" rx="6" fill="#1E1C1C"/>
+        <text x="410" y="552" font-size="20" fill="#8B8380" text-anchor="middle">まちの土台の上に、続く収入が乗る</text>
+
+        <!-- 循環矢印 -->
+        <g filter="url(#G10)">
+          <path d="M42 430 C 6 430, 6 120, 42 120" stroke="#D9484B" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M42 120 l-4 -14 M42 120 l-14 6" stroke="#D9484B" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+    <div class="col mid">
+      <div style="font-size:30px;line-height:1.6;color:var(--soft)">
+        <b style="color:var(--ink);font-weight:900">1階の寄付が一巡した後も、2階の広告収入が入り続ける</b>ため、中間市の税金の持ち出しに頼らず回り続けます。
+      </div>
+      <ul class="bullets" style="margin-top:38px;font-size:22px">
+        <li><span class="d">●</span>個人＝控除なしの投げ銭、企業＝広告に一本化。</li>
+        <li><span class="d">●</span>個人のふるさと納税やログイン登録は今回は扱わない。</li>
+        <li><span class="d">●</span>初期投資の回収後は、次エリアの拡張原資として中間市へ還元するエコシステムを目指す。</li>
+      </ul>
+    </div>
+  </div>
+  <footer class="foot"></footer>
+  <div class="pageno">10 / 15</div>
+</section>
+
+<!-- ══════════ 11. 収支の見取り図 ══════════ -->
+<section class="slide" data-t="7｜収支の見取り図（叩き台）">
+  <header>
+    <div class="kicker"><span class="sec">7</span><span class="kt">数字はすべて仮の試算。今後、市と精査して確定する</span></div>
+    <h2>収支の見取り図（叩き台）</h2>
+  </header>
+  <div class="body c2">
+    <div class="col">
+      <div style="font-size:21px;font-weight:800;color:var(--soft)">①『NAKAMATE!』一式 導入価格（初期・一式／仮）</div>
+      <div class="big" style="--bs:148px;margin-top:10px">2,000<span class="u">万円</span></div>
+      <div style="margin-top:14px;font-size:20px;line-height:1.65;color:var(--soft)">
+        本資料の「未来レンガ」は『応援する』機能としてこの中に含まれる。</div>
+      <div style="margin-top:20px;font-size:19px;line-height:1.6;color:var(--muted)">
+        ※ デジタル田園都市国家構想交付金など、地方DX・関係人口系の交付金／補助金の活用で、市の実負担を圧縮できる可能性。</div>
+      <div style="margin-top:auto;padding-top:26px">
+        <div style="font-size:23px;font-weight:900">③ KPI（成果を測る指標／例）</div>
+        <ul class="bullets" style="margin-top:14px;font-size:20px">
+          <li><span class="d">●</span>寄付者数／寄付総額／スポンサー数／大画面来場・PWAアクセス数／SNSシェア数</li>
+          <li><span class="d">●</span>目標例：半年でスポンサー10社・寄付者1,000人（目標値は市と設定）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col">
+      <div style="font-size:23px;font-weight:900;margin-bottom:16px">② 運用（年間／仮）― 導入後、市が自走</div>
+      <table class="t">
+        <tr><th style="width:110px">区分</th><th>項目</th><th style="width:200px;text-align:right">概算（仮）</th></tr>
+        <tr><td class="k" style="color:var(--pink-d)">収入</td><td>市民の投げ銭（延べ2,000人×平均800円）</td><td class="n" style="text-align:right">約160万円/年</td></tr>
+        <tr><td class="k" style="color:var(--pink-d)">収入</td><td>企業広告・標準CM枠（月2万円×10社）</td><td class="n" style="text-align:right">約240万円/年</td></tr>
+        <tr><td class="k" style="color:var(--pink-d)">収入</td><td>企業広告・特等席（年30万円×3社）</td><td class="n" style="text-align:right">約90万円/年</td></tr>
+        <tr><td class="k" style="color:var(--muted)">支出</td><td>保守・監視・サーバ等</td><td class="n" style="text-align:right;color:var(--muted)">約200〜300万円/年</td></tr>
+        <tr><td class="k">差引</td><td style="font-weight:800;color:var(--ink)">収入合計 約490万円/年（−保守）</td><td class="n" style="text-align:right">余剰は拡張原資へ</td></tr>
+      </table>
+    </div>
+  </div>
+  <footer class="foot"></footer>
+  <div class="pageno">11 / 15</div>
+</section>
+
+<!-- ══════════ 12. つくり方 ══════════ -->
+<section class="slide" data-t="8｜どうやって実現するか（つくり方の要点）">
+  <header>
+    <div class="kicker"><span class="sec">8</span><span class="kt">予算2,000万円を厳守し、ポンプ室に集中して品質を最大化</span></div>
+    <h2>どうやって実現するか（つくり方の要点）</h2>
+  </header>
+  <div class="body c2l">
+    <div class="col mid">
+      <div class="rich" style="font-size:22px">
+        <p><b>まずはポンプ室に一点集中</b><br>初期は世界遺産ポンプ室のみを高精細に構築。中間駅周辺・メインストリートは今回は保留（将来拡張）。80インチでの没入感・クオリティを最大化。</p>
+        <p><b>広告は景観に溶け込ませる</b><br>画面隅の小窓広告（PiP）は廃止。CM動画やロゴは看板・ポスター・飛行船として自然に配置し、電柱などのノイズは入れない。</p>
+        <p><b>アプリ不要のPWA</b><br>専用アプリのDLは不要。QR・ブラウザから全国どこからでもアクセスでき、個人はログインも不要。</p>
+      </div>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 760 560" preserveAspectRatio="xMidYMid meet">
+        <defs><filter id="G12" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="8" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <text x="0" y="26" font-size="21" font-weight="900" fill="#1E1C1C">初期構築の範囲</text>
+        <g transform="translate(380,300)">
+          <circle r="230" fill="#F1ECE3" stroke="#D8CFC6" stroke-width="2" stroke-dasharray="6 10"/>
+          <circle r="140" fill="#FFE7E7"/>
+          <circle r="140" fill="none" stroke="#FF6366" stroke-width="3" filter="url(#G12)"/>
+          <path d="M-320 150 q140 -84 290 -114 q152 -30 320 -114" stroke="#B9B0A8" stroke-width="3" fill="none" opacity=".5"/>
+          <g stroke="#7A6F6C" stroke-width="2.6" fill="none" stroke-linejoin="round">
+            <path d="M-72 26 L4 -24 L86 30 L10 80 Z" fill="#F6F1E8"/>
+            <path d="M-72 26 L-72 90 L10 142 L10 80 Z" fill="#E8E1D6"/>
+            <path d="M86 30 L86 94 L10 142 L10 80 Z" fill="#DCD5C9"/>
+            <path d="M-38 4 L4 -24 L48 6"/>
+            <path d="M56 -6 L72 -14 L72 -72 L56 -64 Z" fill="#F0EAE0"/>
+          </g>
+          <g opacity=".3" stroke="#B9B0A8" stroke-width="2" fill="none">
+            <path d="M-266 -96 L-214 -128 L-160 -96 L-212 -64 Z"/><path d="M-266 -96 L-266 -54 L-212 -22 L-212 -64 Z"/>
+            <path d="M212 -132 L262 -160 L314 -132 L264 -104 Z"/><path d="M212 -132 L212 -92 L264 -64 L264 -104 Z"/>
+          </g>
+        </g>
+        <g><rect x="0" y="466" width="30" height="16" rx="2" fill="#FFE7E7" stroke="#FF6366"/>
+          <text x="42" y="480" font-size="19" font-weight="700" fill="#1E1C1C">今回つくる（ポンプ室）</text>
+          <rect x="0" y="500" width="30" height="16" rx="2" fill="#F1ECE3" stroke="#D8CFC6"/>
+          <text x="42" y="514" font-size="19" fill="#8B8380">将来の拡張（駅周辺・メインストリート）</text></g>
+      </svg>
+    </div>
+  </div>
+  <footer class="foot"></footer>
+  <div class="pageno">12 / 15</div>
+</section>
+
+<!-- ══════════ 13. 運用・設置 ══════════ -->
+<section class="slide" data-t="9｜運用・設置">
+  <header>
+    <div class="kicker"><span class="sec">9</span><span class="kt">誰が・どこで・どう回すか</span></div>
+    <h2>運用・設置</h2>
+  </header>
+  <div class="body">
+    <table class="t">
+      <tr><th style="width:280px">項目</th><th>方針</th></tr>
+      <tr><td class="k">運用主体</td><td>中間市（自治体）が運用する想定。掲載可否の最終判断と管理者権限は市が保持。</td></tr>
+      <tr><td class="k">当社の関与</td><td>日常運用の受託は現時点では想定せず。システムの保守・サポートは必要に応じて提供。</td></tr>
+      <tr><td class="k">負荷を下げる仕組み</td><td>名前・メッセージは即時公開＋AI自動フィルタ（不適切語・個人情報・なりすまし検知）＋通報ボタン。管理画面から集計確認・ワンクリック非表示が可能。</td></tr>
+      <tr><td class="k">広告の審査</td><td>市の広告掲載基準（公序良俗・業種除外等）に沿って市が承認。差し替えは管理画面から申請→承認。</td></tr>
+      <tr><td class="k">設置場所（3拠点）</td><td>人が集まる施設に据え置き。中間市図書館／市役所／ほか1か所を想定。稼働は施設の開館時間、故障対応は保守で。</td></tr>
+    </table>
+  </div>
+  <footer class="foot"></footer>
+  <div class="pageno">13 / 15</div>
+</section>
+
+<!-- ══════════ 14. 確認事項 ══════════ -->
+<section class="slide" data-t="10｜確認事項（要確認リスト）">
+  <header>
+    <div class="kicker"><span class="sec">10</span><span class="kt">社内・対市・専門家に確認して確定する項目</span></div>
+    <h2>確認事項（要確認リスト）</h2>
+  </header>
+  <div class="body">
+    <table class="t">
+      <tr><th style="width:70px">#</th><th>確認したいこと</th><th style="width:290px">確認先</th></tr>
+      <tr><td class="n">1</td><td>決済アカウントの名義：中間市（市／受け皿団体が加盟店）か、当社の収納代行か。手数料と市への精算方法も。</td><td class="k">市 出納・財政／税理士</td></tr>
+      <tr><td class="n">2</td><td>市民の少額寄付（控除なしの投げ銭）を、どの科目・どの受け皿で受けるか。</td><td class="k">市 財政課</td></tr>
+      <tr><td class="n">3</td><td>企業の広告収入の会計科目・消費税・領収書、および広告掲載基準。既存の広告掲載要綱に追加できるか。</td><td class="k">市 財政・広報</td></tr>
+      <tr><td class="n">4</td><td>デジタル田園都市国家構想交付金など、初期構築に充てられる交付金・補助金の有無。</td><td class="k">市 企画</td></tr>
+      <tr><td class="n">5</td><td>大モニター3拠点の設置場所の確定（図書館・市役所・他1か所）と、施設の稼働・電源・通信環境。</td><td class="k">市 施設担当</td></tr>
+    </table>
+  </div>
+  <footer class="foot"></footer>
+  <div class="pageno">14 / 15</div>
+</section>
+
+<!-- ══════════ 15. まとめ ══════════ -->
+<section class="slide dark" data-t="まとめ">
+  <svg class="bg-art" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <pattern id="brick15" width="164" height="116" patternUnits="userSpaceOnUse">
+        <rect width="164" height="116" fill="#201D1E"/>
+        <rect x="3" y="3" width="158" height="52" rx="2" fill="#2B2526" stroke="#3B3233" stroke-width="1.2"/>
+        <rect x="-79" y="61" width="158" height="52" rx="2" fill="#282223" stroke="#3B3233" stroke-width="1.2"/>
+        <rect x="85" y="61" width="158" height="52" rx="2" fill="#282223" stroke="#3B3233" stroke-width="1.2"/>
+      </pattern>
+      <filter id="G15" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="14" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <linearGradient id="veil15" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#1B1819" stop-opacity=".96"/>
+        <stop offset="52%" stop-color="#1B1819" stop-opacity=".82"/>
+        <stop offset="100%" stop-color="#1B1819" stop-opacity=".52"/></linearGradient>
+    </defs>
+    <rect width="1920" height="1080" fill="url(#brick15)"/>
+    <!-- 名前が刻まれて光るレンガ -->
+    <g opacity=".9">
+      <rect x="1271" y="119" width="158" height="52" rx="2" fill="#4A2A2C"/>
+      <rect x="1435" y="351" width="158" height="52" rx="2" fill="#5A3033"/>
+      <rect x="1107" y="583" width="158" height="52" rx="2" fill="#4A2A2C"/>
+      <rect x="1599" y="699" width="158" height="52" rx="2" fill="#5A3033"/>
+      <rect x="1271" y="931" width="158" height="52" rx="2" fill="#4A2A2C"/>
+      <rect x="1763" y="235" width="158" height="52" rx="2" fill="#4A2A2C"/>
+    </g>
+    <g filter="url(#G15)">
+      <rect x="1435" y="351" width="158" height="52" rx="2" fill="none" stroke="#FF6366" stroke-width="2.4" opacity=".85"/>
+      <rect x="1599" y="699" width="158" height="52" rx="2" fill="none" stroke="#FF6366" stroke-width="2.4" opacity=".7"/>
+    </g>
+    <g stroke="#8E6668" stroke-width="3" stroke-linecap="round" opacity=".7">
+      <path d="M1300 147 h74"/><path d="M1464 379 h96"/><path d="M1136 611 h68"/>
+      <path d="M1628 727 h88"/><path d="M1300 959 h80"/><path d="M1792 263 h72"/></g>
+    <!-- 立ちのぼる光の粒 -->
+    <g fill="#FF8E90" filter="url(#G15)" opacity=".55">
+      <circle cx="1380" cy="250" r="4"/><circle cx="1620" cy="480" r="3.5"/><circle cx="1180" cy="420" r="3"/>
+      <circle cx="1760" cy="560" r="4"/><circle cx="1500" cy="820" r="3.5"/></g>
+    <!-- 左を沈めて文字を読ませる -->
+    <rect width="1920" height="1080" fill="url(#veil15)"/>
+    <rect width="1920" height="8" fill="#FF6366"/>
+  </svg>
+  <header>
+    <div class="kicker"><span class="kt">まとめ</span></div>
+    <h2 style="font-size:52px;line-height:1.4">予算2,000万円を厳守し、ポンプ室に集中。<br>
+      <span style="color:var(--yellow)">寄付＋広告の“2階建て”で、市の持ち出しに頼らず自走する。</span></h2>
+  </header>
+  <div class="body" style="grid-template-columns:repeat(3,1fr);gap:26px;align-content:center;align-items:start">
+    <div class="card" style="background:#2A2526;border-color:#443A3B">
+      <span class="cap"></span><div class="ct" style="color:#fff">見える化</div>
+      <div class="cb" style="color:#BDB6B2">応援を街の画面に映し、参加を実感</div></div>
+    <div class="card" style="background:#2A2526;border-color:#443A3B">
+      <span class="cap"></span><div class="ct" style="color:#fff">文化を未来へ</div>
+      <div class="cb" style="color:#BDB6B2">世界遺産をデジタル保存し継承</div></div>
+    <div class="card" style="background:#2A2526;border-color:#443A3B">
+      <span class="cap"></span><div class="ct" style="color:#fff">続く仕組み</div>
+      <div class="cb" style="color:#BDB6B2">無限の壁＋広告で財源が育つ</div></div>
+  </div>
+  <footer>
+    <div class="foot" style="font-size:23px"><b style="color:#FF9A9C">次のステップ</b>　数字・決済スキーム・交付金・設置場所を市と精査して確定 → ポンプ室での実装へ。</div>
+    <div style="margin-top:20px;font-size:21px;color:#fff;font-weight:700">EXE MATE 株式会社
+      <span style="color:#FF9A9C;font-weight:400">https://exemate.co.jp/</span></div>
+  </footer>
+  <div class="pageno">15 / 15</div>
+</section>
+
+</main>
+
+<nav id="bar">
+  <button id="b-toc">目次</button><button id="b-prev">← 前</button>
+  <span id="cnt">1 / 15</span>
+  <button id="b-next">次 →</button><button id="b-full">全画面</button><button id="b-print">PDFで保存</button>
+</nav>
+<div id="toc"><h3>CONTENTS</h3><ol id="toc-list"></ol></div>
+
+<script>
+var AGENDA=["ひと言でいうと？（3つの価値）","体験の4ステップ／申込フロー","画面ではどう見える？",
+  "中核の仕組み「未来レンガ」","応援プラン（サポーター制度）","なぜ続くのか（収入の2つの柱）",
+  "収支の見取り図（叩き台）","どうやって実現するか","運用・設置","確認事項（要確認リスト）"];
+document.getElementById('agenda').innerHTML=AGENDA.map(function(a,i){
+  return '<li style="display:flex;gap:14px;align-items:baseline">'+
+    '<span style="font:800 20px/1.5 \'Segoe UI\',sans-serif;color:var(--pink-d);min-width:30px">'+
+    String(i+1).padStart(2,'0')+'</span><span style="color:var(--soft);line-height:1.5">'+a+'</span></li>';}).join('');
+
+var FLOW_A=[["大画面のQRを読む","据え置きモニターのQRをスマホで読み取る"],
+  ["金額を選ぶ","¥500／¥1,000／¥5,000／任意額から選択"],
+  ["名前とメッセージ","ニックネーム可。メッセージは30字まで"],
+  ["レンガの色を選ぶ","4色から選択。アイコンも設定できる"],
+  ["決済する","Stripeで即時決済。カード・Apple Pay・Google Pay"],
+  ["レンガが生成される","その場で壁に反映。大画面にも即時表示"],
+  ["確認メールが届く","専用URL付き。あとからいつでも会いに行ける"],
+  ["記念動画をシェア","15秒の記念動画が自動生成。SNSへ投稿できる"]];
+var FLOW_B=[["申込フォームから応募","プランを選んで必要事項を入力"],
+  ["市が内容を審査","広告掲載基準に沿って市が可否を判断"],
+  ["審査結果の連絡","通常3営業日以内に可否を通知"],
+  ["請求書の発行","当社より請求書を発行"],
+  ["入金の確認","入金確認をもって掲載手続きへ"],
+  ["素材の入稿","ロゴ・CM動画などの素材をご提供いただく"],
+  ["掲載データの作成","銘板・広告枠へ素材を組み込む"],
+  ["掲載の開始","メタバース空間と大画面に反映"],
+  ["レポートの提出","表示回数などを定期的に報告"]];
+function renderFlow(id,d){document.getElementById(id).innerHTML=d.map(function(x,i){
+  return '<div class="step"><div class="sn">'+(i+1)+'</div><div class="st">'+x[0]+
+    '</div><div class="sb">'+x[1]+'</div></div>'}).join('')}
+renderFlow('flowA',FLOW_A);renderFlow('flowB',FLOW_B);
+
+/* 検査モード: ?p=8 で8枚目だけ原寸 */
+(function(){var m=(location.search||'').match(/[?&]p=(\d+)/);if(!m)return;
+  var n=parseInt(m[1],10);
+  [].slice.call(document.querySelectorAll('.slide')).forEach(function(s,i){if(i!==n-1)s.remove()});
+  var st=document.createElement('style');
+  st.textContent='#bar,#toc{display:none!important}body{background:#fff}#deck{padding:0;gap:0}'+
+    '.slide{transform:none!important;margin:0!important;box-shadow:none}';
+  document.head.appendChild(st)})();
+
+(function(){
+  var sl=[].slice.call(document.querySelectorAll('.slide')),cur=0;
+  var cnt=document.getElementById('cnt'),toc=document.getElementById('toc');
+  sl.forEach(function(s,i){s.id='page-'+(i+1)});
+  document.getElementById('toc-list').innerHTML=sl.map(function(s,i){
+    return '<li><a href="#page-'+(i+1)+'"><span class="n">'+String(i+1).padStart(2,'0')+
+      '</span>'+(s.dataset.t||'')+'</a></li>'}).join('');
+  function fit(){var s=Math.min((innerWidth-40)/1920,(innerHeight-118)/1080);
+    document.documentElement.style.setProperty('--s',Math.min(s,1))}
+  function go(i){cur=Math.max(0,Math.min(sl.length-1,i));
+    sl[cur].scrollIntoView({behavior:'smooth',block:'start'});show()}
+  function show(){cnt.textContent=(cur+1)+' / '+sl.length}
+  document.getElementById('b-prev').onclick=function(){go(cur-1)};
+  document.getElementById('b-next').onclick=function(){go(cur+1)};
+  document.getElementById('b-toc').onclick=function(){toc.classList.toggle('on')};
+  document.getElementById('b-print').onclick=function(){window.print()};
+  document.getElementById('b-full').onclick=function(){
+    document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()};
+  toc.onclick=function(e){if(e.target.closest('a')||e.target===toc)toc.classList.remove('on')};
+  addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1)}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1)}
+    if(e.key==='Escape')toc.classList.remove('on')});
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(en.isIntersecting){cur=sl.indexOf(en.target);show()}})},{threshold:.4});
+    sl.forEach(function(s){io.observe(s)})}
+  addEventListener('resize',fit);fit();show();
+})();
+</script>
+</body>
+</html>
