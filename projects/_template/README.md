@@ -1,12 +1,28 @@
-# 案件テンプレート
+# Project Template
 
-このフォルダを複製して `projects/<案件名>/` を作る。番号付きフォルダの役割を混ぜない。
+Use this template when starting a new EXE proposal project.
+
+## Folder Structure
 
 ```text
-<案件名>/
-├─ 01_brief/       依頼内容、顧客情報、根拠資料
-├─ 02_work/        構成案、画像発注書、検証表
-└─ 03_delivery/    納品HTML、画像、PDF
+<project>/
+├─ 01_brief/
+│  ├─ brief.md
+│  └─ source/
+├─ 02_work/
+└─ 03_delivery/
 ```
 
-新規案件の入口は `01_brief/brief.md`。作成中のファイルを顧客へ渡す場所は `03_delivery/` だけとする。
+## Minimum Start Sequence
+
+1. Copy this folder
+2. Fill `01_brief/brief.md`
+3. Put source files into `01_brief/source/`
+4. Create working notes in `02_work/`
+5. Build final HTML and PDF in `03_delivery/`
+
+## Working Rule
+
+- Keep the brief lightweight but concrete
+- Put only live working assets in the main project flow
+- Leave heavy archives, send-only ZIP files, and legacy material out unless needed

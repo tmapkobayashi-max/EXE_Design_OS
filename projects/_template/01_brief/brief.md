@@ -1,30 +1,84 @@
-# 提案資料ブリーフ
+# Brief
 
-## 基本情報
+## 0. Meta
 
-- 顧客名：
-- 案件名：
-- 読み手・決裁者：
-- 資料の目的：
-- 希望納期：
+- Project name:
+- Client / brand:
+- Date:
+- Owner:
+- Status:
 
-## 提案の芯
+## 1. Request Summary
 
-- 現状の困りごと：
-- EXE MATEが提供する価値：
-- 提案後に実現したい状態：
-- 最後に取ってほしい行動：
+- What is being proposed:
+- Why this proposal is needed now:
+- What decision or action the proposal should unlock:
 
-## 事実と制約
+## 2. Audience
 
-- 確定している数値・日付：
-- 未確定事項：
-- 使ってはいけない表現・話題：
-- 参考にする既存資料：
+- Primary audience:
+- Secondary audience:
+- What they already understand:
+- What they are skeptical or uncertain about:
 
-## 表現の希望
+## 3. Core Message
 
-- 枚数の目安：
-- 画像の有無：
-- 納品形式：HTML / PDF
-- 補足：
+- Single strongest claim of the whole deck:
+- What must be remembered after the meeting:
+- What should feel newly possible:
+
+## 4. Business Context
+
+- Current problem:
+- Cost of leaving it unresolved:
+- Desired future state:
+- Why EXE MATE is a fit:
+
+## 5. Deliverables
+
+- HTML deck:
+- PDF:
+- Illustration count:
+- Other outputs:
+
+## 6. Source Materials
+
+- Primary source files:
+- Supporting notes:
+- Missing information:
+- Numbers that are confirmed:
+- Numbers that are still unconfirmed:
+
+## 7. Visual Direction
+
+- Desired emotional tone:
+- Scenes, objects, or changes that should dominate the screen:
+- What should never appear generic:
+- Existing brand constraints:
+
+## 8. Narrative Flow
+
+- Beginning:
+- Middle:
+- End:
+- Final next action:
+
+## 9. Production Notes
+
+- Deadline:
+- Review flow:
+- Delivery path:
+- PDF download needed: yes / no
+- External links or live demo needed: yes / no
+
+## 10. Open Questions
+
+- 
+
+## 11. Codex Start Checklist
+
+- `SOURCE_OF_TRUTH.md` checked
+- `07_ART_DIRECTION.md` checked
+- one-message-per-slide direction is clear
+- dominant visual candidates are identified
+- unknown numbers are marked as unknown, not invented
